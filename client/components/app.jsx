@@ -8,6 +8,19 @@ export default class App extends React.Component {
       products: []
     };
   }
+
+  getProducts() {
+    fetch('/api/products.php')
+      .then(res => res.json())
+      .then(response => {
+        this.setState({ products: response });
+      });
+  }
+
+  componentDidMount() {
+    this.getProducts();
+  }
+
   render() {
     return (
       <Header />
