@@ -3,12 +3,15 @@ import ProductListItem from './product-list-item';
 
 export default class ProductList extends React.Component {
   render() {
-    const products = this.props.products.map(product =>
-      <ProductListItem property={product} key={product.id} />
+    const products = this.props.productsToBeDisplayed.map(product =>
+      <ProductListItem
+        product={product}
+        key={product.id}
+      />
     );
 
     return (
-      <div>
+      <div className="container-fluid row">
         {products}
       </div>
     );
