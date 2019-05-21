@@ -38,19 +38,19 @@ export default class ProductDetails extends React.Component {
             </button>
           </div>
           <div className="pictureDescription row">
-            <div className="imgContainer pr-0 col-md-8">
+            <div className="imgContainer pr-0 col-md-7">
               <img
                 src={product.image}
                 alt={product.name}
                 className="col"
               />
             </div>
-            <div className="descriptionContainer pl-0 pr-4 col-md-4">
-              <h1 className="productName mt-3">{product.name}</h1>
+            <div className="descriptionContainer container-fluid mx-3 col-md-4">
+              <h1 className="productName mt-2">{product.name}</h1>
               <div
                 className="detailsDescription font-weight-light mt-3"
               >
-                                ${(product.price / 100).toFixed(2)}
+                ${(product.price / 100).toFixed(2)}
               </div>
               <div
                 className="detailsDescription mt-3"
