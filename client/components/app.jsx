@@ -1,13 +1,23 @@
 import React from 'react';
 import Header from './header';
 import ProductList from './product-list';
+import ProductDetails from './product-details';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      products: []
+      products: [],
+      view: {
+        name: 'catalog',
+        params: {}
+      }
     };
+  }
+
+  setView(name, params) {
+    const view = { name, params };
+    this.setState({ view });
   }
 
   getProducts() {
@@ -26,9 +36,16 @@ export default class App extends React.Component {
     return (
       <div>
         <Header />
-        <ProductList
-          productsToBeDisplayed={this.state.products}
-        />
+        { this.state.view.name === 'catalog'
+          ? <ProductList
+            productsToBeDisplayed={this.state.products}
+            whenProductIsClicked={(name, params) => this.setView(name, params)}
+          />
+          : <ProductDetails
+            viewParams={this.state.view.params}
+            setViewMethod={(name, params) => this.setView(name, params)}
+          />
+        }
       </div>
     );
   }
