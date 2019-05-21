@@ -68,10 +68,3 @@ export default class ProductDetails extends React.Component {
     return null;
   }
 }
-
-// id: 1
-// image: "https://bit.ly/2JtVNE6"
-// longDescription: "Shaking up the way you work out, the Shake Weight is a revolution in strength training. Boasting a legion of devotees who enthusiastically confirm the Shake Weight's claim that it shapes and tones the upper body, this product is hard to ignore.↵The way it works is this: a special pulsating dumbbell with dynamic inertia technology increases upper body muscle activity by 300 percent compared to traditional weights as you shake the 5-lb weight several different ways. This repetitive shaking stimulates muscle toning and adds shape to your upper arms, chest, and shoulders.↵The Upper Body Sculpting DVD shows you the proper way to use the Shake Weight so you see the most benefits. It works in only six minutes a day, though if you use it more often, you're likely to see results sooner."
-// name: "Shake Weight"
-// price: 2999
-// shortDescription: "Dynamic Inertia technology ignites m
