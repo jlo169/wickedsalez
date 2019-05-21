@@ -11,7 +11,8 @@ export default class App extends React.Component {
       view: {
         name: 'catalog',
         params: {}
-      }
+      },
+      cart: []
     };
   }
 
@@ -23,13 +24,18 @@ export default class App extends React.Component {
   getProducts() {
     fetch('/api/products.php')
       .then(res => res.json())
-      .then(response => {
-        this.setState({ products: response });
-      });
+      .then(response => this.setState({ products: response }));
+  }
+
+  getCartItems() {
+    fetch('/api/cart.php')
+      .then(res => res.json())
+      .then(response => this.setState({ cart: response }));
   }
 
   componentDidMount() {
     this.getProducts();
+    this.getCartItems();
   }
 
   render() {
