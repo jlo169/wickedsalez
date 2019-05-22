@@ -1,11 +1,17 @@
 <?php
 
 require_once('functions.php');
+require_once('db_connection.php');
 
 set_exception_handler('error_handler');
-doStuff();
 
 $output = file_get_contents('dummy-products-list.json');
+
+if(!$conn) {
+  die("Connect Error: " . mysqli_connect_error() );
+}
+
+var_dump($conn);
 
 echo $output;
 
