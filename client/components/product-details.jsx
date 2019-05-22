@@ -7,11 +7,19 @@ export default class ProductDetails extends React.Component {
       product: null
     };
     this.backButtonClicked = this.backButtonClicked.bind(this);
+    this.addToCartButtonClicked = this.addToCartButtonClicked.bind(this);
   }
 
   backButtonClicked(event) {
     event.preventDefault();
     this.props.setViewMethod('catalog', {});
+  }
+
+  addToCartButtonClicked(event) {
+    event.preventDefault();
+    const { id, image, name, price, shortDescription } = this.state.product;
+    const addProduct = { id, image, name, price, shortDescription };
+    this.props.addProductToCart(addProduct);
   }
 
   componentDidMount() {
@@ -52,11 +60,14 @@ export default class ProductDetails extends React.Component {
               >
                 ${(product.price / 100).toFixed(2)}
               </div>
-              <div
-                className="detailsDescription mt-3"
-              >
+              <div className="detailsDescription mt-3">
                 {product.shortDescription}
               </div>
+              <button
+                className="btn btn-success mt-3"
+                onClick={this.addToCartButtonClicked}
+              >
+                Add to cart</button>
             </div>
           </div>
           <div className="longDescription mt-5 container-fluid">
