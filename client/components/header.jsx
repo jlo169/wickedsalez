@@ -3,10 +3,18 @@ import React from 'react';
 export default class Header extends React.Component {
   render() {
     return (
-      <div className="container ml-2">
-        <h1>WICKED SALEZ</h1>
-        <div>I am a logo</div>
-      </div>
+      <nav className="navbar navbar-dark bg-dark">
+        <a className="navbar-brand" href="#">WICKED SALEZ</a>
+        <div className="shoppingCart mr-5">
+          <div className="text-white">
+            {this.props.cartItems
+              ? this.props.cartItems.length + ' Items '
+              : ''
+            }
+            <i className="fas fa-shopping-cart ml-2"></i>
+          </div>
+        </div>
+      </nav>
     );
   }
 }
