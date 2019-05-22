@@ -8,7 +8,7 @@ set_exception_handler('error_handler');
 $output = file_get_contents('dummy-products-list.json');
 
 if(!$conn) {
-  die("Connect Error: " . mysqli_connect_error() );
+  throw new Exception( mysqli_connect_error() );
 }
 
 var_dump($conn);

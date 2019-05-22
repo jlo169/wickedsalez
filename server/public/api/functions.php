@@ -12,5 +12,4 @@ function error_handler($error) {
     echo $json_output;
 }
 
-
 ?>
