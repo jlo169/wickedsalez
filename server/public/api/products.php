@@ -11,6 +11,7 @@ if(!$conn) {
 }
 
 $whereClause = '';
+$id = false;
 
 if (!empty($_GET["id"])) {
   $id = intval($_GET["id"]);
@@ -25,6 +26,10 @@ $result = mysqli_query($conn, $query);
 
 if(!$result) {
   throw new Exception( mysqli_error($conn) );
+}
+
+if(mysqli_num_rows($result) === 0 && $id !== false) {
+  throw new Exception("Invalid Id: {$id}");
 }
 
 $output = [];
