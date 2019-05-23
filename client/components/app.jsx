@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './header';
 import ProductList from './product-list';
 import ProductDetails from './product-details';
+import CartSummary from './cart-summary';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -51,22 +52,33 @@ export default class App extends React.Component {
   }
 
   render() {
+    const currentPage = this.state.view.name;
+    let newPageTarget = '';
+    if (currentPage === 'catalog') {
+      newPageTarget = <ProductList
+        productsToBeDisplayed={this.state.products}
+        whenProductIsClicked={(name, params) => this.setView(name, params)}
+      />;
+    } else if (currentPage === 'details') {
+      newPageTarget = <ProductDetails
+        viewParams={this.state.view.params}
+        setViewMethod={(name, params) => this.setView(name, params)}
+        addProductToCart={product => this.addToCart(product)}
+      />;
+    } else if (currentPage === 'cart') {
+      newPageTarget = <CartSummary
+        itemsInCart={this.state.cart}
+        setViewMethod={(name, params) => this.setView(name, params)}
+      />;
+    }
+
     return (
       <div>
         <Header
           cartItems={this.state.cart}
+          setViewMethod={(name, params) => this.setView(name, params)}
         />
-        { this.state.view.name === 'catalog'
-          ? <ProductList
-            productsToBeDisplayed={this.state.products}
-            whenProductIsClicked={(name, params) => this.setView(name, params)}
-          />
-          : <ProductDetails
-            viewParams={this.state.view.params}
-            setViewMethod={(name, params) => this.setView(name, params)}
-            addProductToCart={product => this.addToCart(product)}
-          />
-        }
+        {newPageTarget}
       </div>
     );
   }
