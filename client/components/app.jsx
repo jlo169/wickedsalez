@@ -3,6 +3,7 @@ import Header from './header';
 import ProductList from './product-list';
 import ProductDetails from './product-details';
 import CartSummary from './cart-summary';
+import CheckoutForm from './checkout-form';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -46,6 +47,30 @@ export default class App extends React.Component {
       .then(response => this.setState({ cart: [...this.state.cart, response] }));
   }
 
+  placeOrder(order) {
+    const cart = this.state.cart;
+    const newOrder = {
+      customer: order,
+      cart: cart
+    };
+
+    fetch('/api/orders.php', {
+      method: 'POST',
+      body: JSON.stringify(newOrder),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(() => {
+        const defaultViewState = { name: 'catalog', params: {} };
+        this.setState({
+          cart: [],
+          view: defaultViewState
+        });
+      })
+      .catch(err => console.error('Error, ', err));
+  }
+
   componentDidMount() {
     this.getProducts();
     this.getCartItems();
@@ -69,6 +94,12 @@ export default class App extends React.Component {
       newPageTarget = <CartSummary
         itemsInCart={this.state.cart}
         setViewMethod={(name, params) => this.setView(name, params)}
+      />;
+    } else if (currentPage === 'checkout') {
+      newPageTarget = <CheckoutForm
+        itemsInCart={this.state.cart}
+        setViewMethod={(name, params) => this.setView(name, params)}
+        placingOrder={order => this.placeOrder(order)}
       />;
     }
 

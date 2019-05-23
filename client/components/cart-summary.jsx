@@ -22,6 +22,11 @@ export default class CartSummary extends React.Component {
     this.props.setViewMethod('catalog', {});
   }
 
+  checkoutButtonClicked(event) {
+    event.preventDefault();
+    this.props.setViewMethod('checkout', {});
+  }
+
   render() {
     const cartItems = this.props.itemsInCart.map(cartItem =>
       <CartSummaryItem
@@ -30,7 +35,7 @@ export default class CartSummary extends React.Component {
       />
     );
     let averagePrice = this.sumOfAllPrices();
-    // return null;
+
     return (
       <div className="container">
         <div className="header container-fluid my-2">
@@ -46,9 +51,14 @@ export default class CartSummary extends React.Component {
             {cartItems}
           </div>
         </div>
-        <h3 className="averagePrice footer fixed-bottom bg-dark py-3 mb-0 text-light">
-          Item Total: {averagePrice}
-        </h3>
+        <div className="averagePrice row footer fixed-bottom bg-dark py-4 mb-0">
+          <h3 className="text-light ml-5">Item Total: {averagePrice}</h3>
+          <button
+            className="btn btn-outline-light offset-md-7 ml-xs-5"
+            onClick={event => this.checkoutButtonClicked(event)}
+          >
+            Checkout</button>
+        </div>
 
       </div>
     );
