@@ -68,6 +68,7 @@ export default class App extends React.Component {
     } else if (currentPage === 'cart') {
       newPageTarget = <CartSummary
         itemsInCart={this.state.cart}
+        setViewMethod={(name, params) => this.setView(name, params)}
       />;
     }
 
@@ -75,6 +76,7 @@ export default class App extends React.Component {
       <div>
         <Header
           cartItems={this.state.cart}
+          setViewMethod={(name, params) => this.setView(name, params)}
         />
         {newPageTarget}
       </div>
