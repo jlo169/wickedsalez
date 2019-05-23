@@ -13,7 +13,10 @@ if(!$conn) {
 $whereClause = '';
 
 if (!empty($_GET["id"])) {
-  $id = $_GET["id"];
+  $id = intval($_GET["id"]);
+  if (!is_numeric($_GET["id"])) {
+    throw new Exception("Id must be a number");
+  }
   $whereClause = "WHERE `id` = $id";
 }
 
