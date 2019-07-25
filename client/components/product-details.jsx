@@ -17,9 +17,8 @@ export default class ProductDetails extends React.Component {
 
   addToCartButtonClicked(event) {
     event.preventDefault();
-    const { id, image, name, price, shortDescription } = this.state.product;
-    const addProduct = { id, image, name, price, shortDescription };
-    this.props.addProductToCart(addProduct);
+    const { id } = this.state.product;
+    this.props.addProductToCart(id);
   }
 
   componentDidMount() {
@@ -27,7 +26,7 @@ export default class ProductDetails extends React.Component {
 
     fetch(`/api/products.php?id=${productId}`)
       .then(res => res.json())
-      .then(response => this.setState({ product: response }))
+      .then(response => this.setState({ product: response[0] }))
       .catch(error => console.error('Error: ', error));
   }
 

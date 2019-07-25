@@ -15,4 +15,13 @@ function error_handler($error) {
 function startup() {
     header('Content-type: application/json');
 };
+
+function stripslashes_deep($value) {
+    $value = is_array($value) ?
+        array_map('stripslashes_deep', $value) :
+        stripslashes($value);
+    
+    return $value;
+};
+
 ?>

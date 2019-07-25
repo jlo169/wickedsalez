@@ -32,19 +32,23 @@ export default class App extends React.Component {
   getCartItems() {
     fetch('/api/cart.php')
       .then(res => res.json())
-      .then(response => this.setState({ cart: response }));
+      .then(response =>
+        this.setState({ cart: response }));
   }
 
-  addToCart(product) {
+  addToCart(id) {
     fetch('/api/cart.php', {
       method: 'POST',
-      body: JSON.stringify(product),
+      body: JSON.stringify(id),
       headers: {
         'Content-Type': 'application/json'
       }
     })
       .then(res => res.json())
-      .then(response => this.setState({ cart: [...this.state.cart, response] }));
+      .then(response => {
+        this.setState({ cart: [...this.state.cart, response] });
+      })
+      .catch(error => console.error('Error: ', error));
   }
 
   placeOrder(order) {

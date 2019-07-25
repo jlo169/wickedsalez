@@ -18,7 +18,7 @@ export default class CheckoutForm extends Component {
   sumOfAllPrices() {
     let priceTotal = 0;
     for (let item of this.props.itemsInCart) {
-      priceTotal += item.price;
+      priceTotal += parseInt(item.price);
     }
     const averagePrice = '$' + ((priceTotal / 100).toFixed(2));
     return averagePrice;
