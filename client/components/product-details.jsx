@@ -22,7 +22,8 @@ export default class ProductDetails extends React.Component {
   }
 
   componentDidMount() {
-    const productId = this.props.viewParams.id;
+    let productId = this.props.viewParams.id;
+    productId = productId * 1;
 
     fetch(`/api/products.php?id=${productId}`)
       .then(res => res.json())
@@ -60,7 +61,7 @@ export default class ProductDetails extends React.Component {
                 ${(product.price / 100).toFixed(2)}
               </div>
               <div className="detailsDescription mt-3">
-                {product.shortDescription}
+                {product.players}
               </div>
               <button
                 className="btn btn-success mt-3"
@@ -70,7 +71,7 @@ export default class ProductDetails extends React.Component {
             </div>
           </div>
           <div className="longDescription mt-5 container-fluid">
-            <div>{product.longDescription}</div>
+            <div>{product.description}</div>
           </div>
         </div>
       );

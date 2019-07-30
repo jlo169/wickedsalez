@@ -14,13 +14,15 @@ $query = '';
 $id = false;
 
 if (!empty($_GET["id"])) {
-  $id = intval($_GET["id"]);
+  $id = $_GET["id"];
   if (!is_numeric($_GET["id"])) {
     throw new Exception("Id must be a number");
   }
-  $query = "SELECT `id`, `name`, `price`, `image`, `shortDescription`, `longDescription` FROM `products` WHERE `id` = $id";
+  $query = "SELECT `id`, `name`, `price`, `image`, `players`, `time`, `type`, `description`
+    FROM `products` WHERE `id` = $id";
 } else {
-  $query = "SELECT `id`, `name`, `price`, `image`, `shortDescription` FROM `products`";
+  $query = "SELECT `id`, `name`, `price`, `image`, `players`, `time`, `type` 
+    FROM `products`";
 }
 
 $result = mysqli_query($conn, $query);
@@ -29,7 +31,7 @@ if(!$result) {
   throw new Exception( mysqli_error($conn) );
 }
 
-if(mysqli_num_rows($result) === 0 && $id !== false) {
+if(mysqli_num_rows($result) === 0) {
   throw new Exception("Invalid Id: {$id}");
 }
 
@@ -39,7 +41,6 @@ while($row = mysqli_fetch_assoc($result)) {
   $output[] = $row;
 }
 
-$output = stripslashes_deep($output);
 $json_output = json_encode($output);
 
 echo $json_output;
