@@ -5,3 +5,10 @@
 .detailsDescription {
     font-size: 1.5em;
 }
+
+.detailsImg {
+    height: 50vmin;
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}

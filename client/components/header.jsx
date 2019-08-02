@@ -20,7 +20,7 @@ export default class Header extends React.Component {
           WICKED SALEZ
         </a>
         <div
-          className="shoppingCart mr-5"
+          className="shoppingCart"
           onClick={ event => this.cartButtonClicked(event)}
         >
           <div className="text-white">

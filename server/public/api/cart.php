@@ -13,7 +13,7 @@ if(!$conn) {
 $method = $_SERVER['REQUEST_METHOD'];
 
 if($method == 'GET') {
-  $query = "SELECT p.`id`, p.`name`, p.`price`, p.`image`, p.`shortDescription`, c.`quantity`
+  $query = "SELECT p.`id`, p.`name`, p.`price`, p.`image`, p.`description`, c.`quantity`
     FROM `products` AS p
     JOIN `cart` AS c
     ON p.`id` = c.`products_id`";
@@ -49,7 +49,7 @@ if($method == 'GET') {
     throw new Exception( mysqli_error($conn) );
   }
 
-  $postQuery = "SELECT p.`id`, p.`name`, p.`price`, p.`image`, p.`shortDescription`
+  $postQuery = "SELECT p.`id`, p.`name`, p.`price`, p.`image`, p.`description`
     FROM `products` AS p
     JOIN `cart`
     ON p.`id` = cart.`products_id`
