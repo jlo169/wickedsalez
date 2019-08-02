@@ -47,18 +47,29 @@ export default class CartSummary extends React.Component {
           </button>
         </div>
         <div className="container">
-          <div>
-            {cartItems}
+          <div className="row">
+            <div className="col-8">
+              {cartItems}
+            </div>
+            <div className="col-4 border border-secondary">
+              <h3 className="">Item Total: {averagePrice}</h3>
+              <button
+                className="btn btn-secondary"
+                onClick={event => this.checkoutButtonClicked(event)}
+              >
+                Checkout
+              </button>
+            </div>
           </div>
         </div>
-        <div className="averagePrice row footer fixed-bottom bg-dark py-4 mb-0">
+        {/* <div className="averagePrice row footer fixed-bottom bg-dark py-4 mb-0">
           <h3 className="text-light ml-5">Item Total: {averagePrice}</h3>
           <button
             className="btn btn-outline-light offset-md-7 ml-xs-5"
             onClick={event => this.checkoutButtonClicked(event)}
           >
             Checkout</button>
-        </div>
+        </div> */}
 
       </div>
     );
