@@ -5,7 +5,7 @@ export default class CartSummaryItem extends React.Component {
     const item = this.props.cartItem;
 
     return (
-      <div className="container border border-secondary bg-light rounded mt-3 col">
+      <div className="container border border-secondary bg-light rounded mb-3 col">
         <div className="row">
           <img
             src={item.image}

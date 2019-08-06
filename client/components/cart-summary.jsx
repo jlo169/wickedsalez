@@ -51,7 +51,7 @@ export default class CartSummary extends React.Component {
             <div className="col-8">
               {cartItems}
             </div>
-            <div className="col-4 border border-secondary">
+            <div className="col-4 border border-secondary rounded">
               <h3 className="">Item Total: {averagePrice}</h3>
               <button
                 className="btn btn-secondary"
