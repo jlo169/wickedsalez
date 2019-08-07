@@ -1,11 +1,12 @@
 import React from 'react';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import Header from './header';
 import ProductList from './product-list';
 import ProductDetails from './product-details';
 import CartSummary from './cart-summary';
 import CheckoutForm from './checkout-form';
 
-export default class App extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -81,31 +82,31 @@ export default class App extends React.Component {
   }
 
   render() {
-    const currentPage = this.state.view.name;
-    let newPageTarget = '';
-    if (currentPage === 'catalog') {
-      newPageTarget = <ProductList
-        productsToBeDisplayed={this.state.products}
-        whenProductIsClicked={(name, params) => this.setView(name, params)}
-      />;
-    } else if (currentPage === 'details') {
-      newPageTarget = <ProductDetails
-        viewParams={this.state.view.params}
-        setViewMethod={(name, params) => this.setView(name, params)}
-        addProductToCart={product => this.addToCart(product)}
-      />;
-    } else if (currentPage === 'cart') {
-      newPageTarget = <CartSummary
-        itemsInCart={this.state.cart}
-        setViewMethod={(name, params) => this.setView(name, params)}
-      />;
-    } else if (currentPage === 'checkout') {
-      newPageTarget = <CheckoutForm
-        itemsInCart={this.state.cart}
-        setViewMethod={(name, params) => this.setView(name, params)}
-        placingOrder={order => this.placeOrder(order)}
-      />;
-    }
+    // const currentPage = this.state.view.name;
+    // let newPageTarget = '';
+    // if (currentPage === 'catalog') {
+    //   newPageTarget = <ProductList
+    //     productsToBeDisplayed={this.state.products}
+    //     whenProductIsClicked={(name, params) => this.setView(name, params)}
+    //   />;
+    // } else if (currentPage === 'details') {
+    //   newPageTarget = <ProductDetails
+    //     viewParams={this.state.view.params}
+    //     setViewMethod={(name, params) => this.setView(name, params)}
+    //     addProductToCart={product => this.addToCart(product)}
+    //   />;
+    // } else if (currentPage === 'cart') {
+    //   newPageTarget = <CartSummary
+    //     itemsInCart={this.state.cart}
+    //     setViewMethod={(name, params) => this.setView(name, params)}
+    //   />;
+    // } else if (currentPage === 'checkout') {
+    //   newPageTarget = <CheckoutForm
+    //     itemsInCart={this.state.cart}
+    //     setViewMethod={(name, params) => this.setView(name, params)}
+    //     placingOrder={order => this.placeOrder(order)}
+    //   />;
+    // }
 
     return (
       <div>
@@ -113,8 +114,38 @@ export default class App extends React.Component {
           cartItems={this.state.cart}
           setViewMethod={(name, params) => this.setView(name, params)}
         />
-        {newPageTarget}
+        {/* {newPageTarget} */}
+        <Switch>
+          <Route exact path="/" render={props =>
+            <ProductList {...props}
+              productsToBeDisplayed={this.state.products}
+              whenProductIsClicked={(name, params) => this.setView(name, params)}
+            />
+          }/>
+          <Route exact path="/details/:id" render={props =>
+            <ProductDetails {...props}
+              viewParams={this.state.view.params}
+              setViewMethod={(name, params) => this.setView(name, params)}
+              addProductToCart={product => this.addToCart(product)}
+            />
+          }/>
+          <Route exact path="/cart" render={props =>
+            <CartSummary {...props}
+              itemsInCart={this.state.cart}
+              setViewMethod={(name, params) => this.setView(name, params)}
+            />
+          }/>
+          <Route exact path="/checkout" render={props =>
+            <CheckoutForm {...props}
+              itemsInCart={this.state.cart}
+              setViewMethod={(name, params) => this.setView(name, params)}
+              placingOrder={order => this.placeOrder(order)}
+            />
+          }/>
+        </Switch>
       </div>
     );
   }
 }
+
+export default withRouter(App);
