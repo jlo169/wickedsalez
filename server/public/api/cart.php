@@ -35,6 +35,7 @@ if($method == 'GET') {
   echo $json_output;
 
 } else if ($method == 'POST') {
+  // $productId = intval($_POST["id"]);
   $productId = json_decode(file_get_contents("php://input"));
   // $productQuantity = intval($_POST["quantity"]);
 

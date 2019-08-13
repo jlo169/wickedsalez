@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 export default class ProductDetails extends React.Component {
   constructor(props) {
@@ -25,9 +26,8 @@ export default class ProductDetails extends React.Component {
     let productId = this.props.viewParams.id;
     productId = productId * 1;
 
-    fetch(`/api/products.php?id=${productId}`)
-      .then(res => res.json())
-      .then(response => this.setState({ product: response[0] }))
+    axios.get(`/api/products.php?id=${productId}`)
+      .then(response => this.setState({ product: response.data[0] }))
       .catch(error => console.error('Error: ', error));
   }
 

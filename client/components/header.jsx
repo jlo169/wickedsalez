@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default class Header extends React.Component {
   mainTitleClicked(event) {
@@ -14,21 +15,20 @@ export default class Header extends React.Component {
   render() {
     return (
       <nav className="navbar navbar-dark bg-dark">
-        <a className="navbar-brand text-white"
-          onClick={event => this.mainTitleClicked(event)}
-        >
-          WICKED SALEZ
-        </a>
-        <div
-          className="shoppingCart"
-          onClick={ event => this.cartButtonClicked(event)}
-        >
+        <div className="navbar-brand">
+          <Link to='/' className="font-weight-light">
+            {this.props.title}
+          </Link>
+        </div>
+        <div className="shoppingCart">
           <div className="text-white">
-            {this.props.cartItems
-              ? this.props.cartItems.length + ' Items '
-              : ''
-            }
-            <i className="fas fa-shopping-cart ml-2"></i>
+            <Link to='/cart'>
+              {this.props.cartItems
+                ? this.props.cartItems.length + ' Items '
+                : ''
+              }
+              <i className="fas fa-shopping-cart"></i>
+            </Link>
           </div>
         </div>
       </nav>

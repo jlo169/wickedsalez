@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
+import axios from 'axios';
 import Header from './header';
 import ProductList from './product-list';
 import ProductDetails from './product-details';
@@ -11,43 +12,26 @@ class App extends React.Component {
     super(props);
     this.state = {
       products: [],
-      view: {
-        name: 'catalog',
-        params: {}
-      },
       cart: []
     };
   }
 
-  setView(name, params) {
-    const view = { name, params };
-    this.setState({ view });
-  }
-
   getProducts() {
-    fetch('/api/products.php')
-      .then(res => res.json())
-      .then(response => this.setState({ products: response }));
+    axios.get('/api/products.php')
+      .then(response => this.setState({ products: response.data }))
+      .catch(error => console.error(error));
   }
 
   getCartItems() {
-    fetch('/api/cart.php')
-      .then(res => res.json())
-      .then(response =>
-        this.setState({ cart: response }));
+    axios.get('/api/cart.php')
+      .then(response => this.setState({ cart: response.data }))
+      .catch(error => console.error(error));
   }
 
   addToCart(id) {
-    fetch('/api/cart.php', {
-      method: 'POST',
-      body: JSON.stringify(id),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(res => res.json())
+    axios.post('/api/cart.php', id)
       .then(response => {
-        this.setState({ cart: [...this.state.cart, response] });
+        this.setState({ cart: [...this.state.cart, response.data] });
       })
       .catch(error => console.error('Error: ', error));
   }
@@ -82,39 +66,12 @@ class App extends React.Component {
   }
 
   render() {
-    // const currentPage = this.state.view.name;
-    // let newPageTarget = '';
-    // if (currentPage === 'catalog') {
-    //   newPageTarget = <ProductList
-    //     productsToBeDisplayed={this.state.products}
-    //     whenProductIsClicked={(name, params) => this.setView(name, params)}
-    //   />;
-    // } else if (currentPage === 'details') {
-    //   newPageTarget = <ProductDetails
-    //     viewParams={this.state.view.params}
-    //     setViewMethod={(name, params) => this.setView(name, params)}
-    //     addProductToCart={product => this.addToCart(product)}
-    //   />;
-    // } else if (currentPage === 'cart') {
-    //   newPageTarget = <CartSummary
-    //     itemsInCart={this.state.cart}
-    //     setViewMethod={(name, params) => this.setView(name, params)}
-    //   />;
-    // } else if (currentPage === 'checkout') {
-    //   newPageTarget = <CheckoutForm
-    //     itemsInCart={this.state.cart}
-    //     setViewMethod={(name, params) => this.setView(name, params)}
-    //     placingOrder={order => this.placeOrder(order)}
-    //   />;
-    // }
-
     return (
       <div>
         <Header
+          title="WICKED SALEZ"
           cartItems={this.state.cart}
-          setViewMethod={(name, params) => this.setView(name, params)}
         />
-        {/* {newPageTarget} */}
         <Switch>
           <Route exact path="/" render={props =>
             <ProductList {...props}
