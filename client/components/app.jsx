@@ -76,26 +76,21 @@ class App extends React.Component {
           <Route exact path="/" render={props =>
             <ProductList {...props}
               productsToBeDisplayed={this.state.products}
-              whenProductIsClicked={(name, params) => this.setView(name, params)}
             />
           }/>
           <Route exact path="/details/:id" render={props =>
             <ProductDetails {...props}
-              viewParams={this.state.view.params}
-              setViewMethod={(name, params) => this.setView(name, params)}
               addProductToCart={product => this.addToCart(product)}
             />
           }/>
           <Route exact path="/cart" render={props =>
             <CartSummary {...props}
               itemsInCart={this.state.cart}
-              setViewMethod={(name, params) => this.setView(name, params)}
             />
           }/>
           <Route exact path="/checkout" render={props =>
             <CheckoutForm {...props}
               itemsInCart={this.state.cart}
-              setViewMethod={(name, params) => this.setView(name, params)}
               placingOrder={order => this.placeOrder(order)}
             />
           }/>

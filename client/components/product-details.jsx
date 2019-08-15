@@ -7,13 +7,7 @@ export default class ProductDetails extends React.Component {
     this.state = {
       product: null
     };
-    this.backButtonClicked = this.backButtonClicked.bind(this);
     this.addToCartButtonClicked = this.addToCartButtonClicked.bind(this);
-  }
-
-  backButtonClicked(event) {
-    event.preventDefault();
-    this.props.setViewMethod('catalog', {});
   }
 
   addToCartButtonClicked(event) {
@@ -22,13 +16,17 @@ export default class ProductDetails extends React.Component {
     this.props.addProductToCart(id);
   }
 
-  componentDidMount() {
-    let productId = this.props.viewParams.id;
-    productId = productId * 1;
-
-    axios.get(`/api/products.php?id=${productId}`)
-      .then(response => this.setState({ product: response.data[0] }))
+  getProductDetails(id) {
+    axios.get(`/api/products.php?id=${id}`)
+      .then(response => {
+        this.setState({ product: response.data[0] });
+      })
       .catch(error => console.error('Error: ', error));
+  }
+
+  componentDidMount() {
+    let productId = parseInt(this.props.match.params.id);
+    this.getProductDetails(productId);
   }
 
   render() {
@@ -36,15 +34,7 @@ export default class ProductDetails extends React.Component {
 
     if (product) {
       return (
-        <div>
-          <div className="header my-2 container-fluid">
-            <button
-              onClick={this.backButtonClicked}
-              className="btn btn-secondary"
-            >
-              <i className="fas fa-arrow-left"></i> Back to catalog
-            </button>
-          </div>
+        <div className="mt-3">
           <div className="pictureDescription row">
             <div className="imgContainer pr-0 py-2 col-md-7">
               <img
