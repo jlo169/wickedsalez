@@ -5,15 +5,23 @@ export default class ProductDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      product: null
+      product: null,
+      quantity: 1
     };
+    this.handleQtyChange = this.handleQtyChange.bind(this);
     this.addToCartButtonClicked = this.addToCartButtonClicked.bind(this);
+  }
+
+  handleQtyChange(event) {
+    let value = parseInt(event.target.value);
+    this.setState({ quantity: value });
   }
 
   addToCartButtonClicked(event) {
     event.preventDefault();
     const { id } = this.state.product;
-    this.props.addProductToCart(id);
+    const qty = this.state.quantity;
+    this.props.addProductToCart(id, qty);
   }
 
   getProductDetails(id) {
@@ -52,6 +60,22 @@ export default class ProductDetails extends React.Component {
               </div>
               <div className="detailsDescription mt-1">
                 {product.players}
+              </div>
+              <div className="container">
+                <div className="row">Qty:
+                  <select
+                    className="form-control form-control-sm col-xs-2 col-md-2 ml-1"
+                    id="itemQuantity1"
+                    defaultValue={this.state.quantity}
+                    onChange={this.handleQtyChange}
+                  >
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                  </select>
+                </div>
               </div>
               <button
                 className="btn btn-success mt-3"

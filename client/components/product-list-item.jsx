@@ -2,17 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 export default class ProductListItem extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.handleProductClick = this.handleProductClick.bind(this);
-  }
-
-  handleProductClick(event) {
-    event.preventDefault();
-    this.props.whenProductIsClicked('details', { id: this.props.product.id });
-  }
-
   render() {
     const product = this.props.product;
     return (

@@ -28,10 +28,11 @@ class App extends React.Component {
       .catch(error => console.error(error));
   }
 
-  addToCart(id) {
-    axios.post('/api/cart.php', id)
+  addToCart(id, qty) {
+    const data = { id, qty };
+    axios.post('/api/cart.php', data)
       .then(response => {
-        this.setState({ cart: [...this.state.cart, response.data] });
+        this.setState({ cart: response.data });
       })
       .catch(error => console.error('Error: ', error));
   }
@@ -80,7 +81,7 @@ class App extends React.Component {
           }/>
           <Route exact path="/details/:id" render={props =>
             <ProductDetails {...props}
-              addProductToCart={product => this.addToCart(product)}
+              addProductToCart={(id, qty) => this.addToCart(id, qty)}
             />
           }/>
           <Route exact path="/cart" render={props =>
