@@ -2,17 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 export default class Header extends React.Component {
-  mainTitleClicked(event) {
-    event.preventDefault(event);
-    this.props.setViewMethod('catalog', {});
-  }
-
-  cartButtonClicked(event) {
-    event.preventDefault();
-    this.props.setViewMethod('cart', {});
-  }
-
   render() {
+    let totalItemsInCart = 0;
+
+    for (let cartItem of this.props.cartItems) {
+      totalItemsInCart += parseInt(cartItem.quantity);
+    }
+
     return (
       <nav className="navbar navbar-dark bg-dark">
         <div className="navbar-brand">
@@ -24,7 +20,7 @@ export default class Header extends React.Component {
           <div className="text-white">
             <Link to='/cart'>
               {this.props.cartItems
-                ? this.props.cartItems.length + ' Items '
+                ? totalItemsInCart + ' Items '
                 : ''
               }
               <i className="fas fa-shopping-cart"></i>

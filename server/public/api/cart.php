@@ -13,7 +13,7 @@ if(!$conn) {
 $method = $_SERVER['REQUEST_METHOD'];
 
 if($method == 'GET') {
-  $query = "SELECT p.`id`, p.`name`, p.`price`, p.`image`, p.`description`, c.`quantity`
+  $query = "SELECT p.`id`, c.`id` AS `cart_id`, p.`name`, p.`price`, p.`image`, p.`description`, c.`quantity`
     FROM `products` AS p
     JOIN `cart` AS c
     ON p.`id` = c.`products_id`";
@@ -58,7 +58,7 @@ if($method == 'GET') {
         if (intval($row['products_id']) === $productId) {
           $existsInCart = true;
           $updateCartId = $row['id'];
-          $updateCartQty = $row['quantity'] + $productQty;
+          $updateCartQty = $productQty;
         }
       }
 

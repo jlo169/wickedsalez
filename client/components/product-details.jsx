@@ -6,7 +6,9 @@ export default class ProductDetails extends React.Component {
     super(props);
     this.state = {
       product: null,
-      quantity: 1
+      quantity: null,
+      alreadyInCart: false,
+      cart: []
     };
     this.handleQtyChange = this.handleQtyChange.bind(this);
     this.addToCartButtonClicked = this.addToCartButtonClicked.bind(this);
@@ -27,14 +29,35 @@ export default class ProductDetails extends React.Component {
   getProductDetails(id) {
     axios.get(`/api/products.php?id=${id}`)
       .then(response => {
-        this.setState({ product: response.data[0] });
+        let isProductInCart = false;
+
+        for (let cartItem of this.state.cart) {
+          if (id === parseInt(cartItem.id)) {
+            isProductInCart = true;
+            this.setState({
+              product: response.data[0],
+              quantity: cartItem.quantity,
+              alreadyInCart: true
+            });
+          }
+        }
+        if (!isProductInCart) {
+          this.setState({ product: response.data[0], quantity: 1 });
+        }
       })
       .catch(error => console.error('Error: ', error));
   }
 
+  getCartItems(productId) {
+    axios.get('/api/cart.php')
+      .then(response => this.setState({ cart: response.data }))
+      .then(() => this.getProductDetails(productId))
+      .catch(error => console.error(error));
+  }
+
   componentDidMount() {
     let productId = parseInt(this.props.match.params.id);
-    this.getProductDetails(productId);
+    this.getCartItems(productId);
   }
 
   render() {
@@ -75,13 +98,20 @@ export default class ProductDetails extends React.Component {
                     <option>4</option>
                     <option>5</option>
                   </select>
+                  <div className="ml-2">{this.state.alreadyInCart
+                    ? '*This item already exists in the cart'
+                    : ''}
+                  </div>
                 </div>
               </div>
               <button
                 className="btn btn-success mt-3"
                 onClick={this.addToCartButtonClicked}
               >
-                Add to cart</button>
+                {this.state.alreadyInCart
+                  ? 'Update Cart'
+                  : 'Add to Cart'}
+              </button>
             </div>
           </div>
           <div className="longDescription mt-5 container-fluid">

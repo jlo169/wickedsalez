@@ -15,7 +15,6 @@ export default class ProductList extends React.Component {
       <ProductListItem
         product={product}
         key={product.id}
-        whenProductIsClicked={this.props.whenProductIsClicked}
       />
     );
 

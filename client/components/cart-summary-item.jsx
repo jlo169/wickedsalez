@@ -1,6 +1,28 @@
 import React from 'react';
+import axios from 'axios';
 
 export default class CartSummaryItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      cartQuantity: ''
+    };
+  }
+
+  handleUpdateQty(event) {
+    const qtyUpdate = {
+      id: parseInt(this.props.cartItem.cart_id),
+      qty: parseInt(event.target.value)
+    };
+    axios.put('/api/update-cart.php', qtyUpdate)
+      .then(response => this.setState({ cartQuantity: response.data }))
+      .catch(error => console.error(error));
+  }
+
+  componentDidMount() {
+    this.setState({ cartQuantity: parseInt(this.props.cartItem.quantity) });
+  }
+
   render() {
     const item = this.props.cartItem;
 
@@ -21,22 +43,17 @@ export default class CartSummaryItem extends React.Component {
                   <select
                     className="form-control form-control-sm col-xs-2 col-md-2 ml-1"
                     id="itemQuantity1"
-                    defaultValue={item.quantity}
+                    value={this.state.cartQuantity}
+                    onChange={event => this.handleUpdateQty(event)}
                   >
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
                     <option>4</option>
                     <option>5</option>
-                    <option>6+</option>
                   </select>
                 </div>
               </div>
-              {/* <div
-                className="shortDescription mt-2"
-              >
-              </div>
-              {item.shortDescription} */}
             </div>
           </div>
         </div>

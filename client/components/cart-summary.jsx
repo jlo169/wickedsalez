@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import CartSummaryItem from './cart-summary-item';
 
 export default class CartSummary extends React.Component {
-
   sumOfAllPrices() {
     let priceTotal = 0;
     for (let item of this.props.itemsInCart) {
@@ -11,11 +10,6 @@ export default class CartSummary extends React.Component {
     }
     const averagePrice = '$' + ((priceTotal / 100).toFixed(2));
     return averagePrice;
-  }
-
-  checkoutButtonClicked(event) {
-    event.preventDefault();
-    this.props.setViewMethod('checkout', {});
   }
 
   render() {
