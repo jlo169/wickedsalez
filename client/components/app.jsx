@@ -37,6 +37,17 @@ class App extends React.Component {
       .catch(error => console.error('Error: ', error));
   }
 
+  updateCartQty(id, qty) {
+    const cartArr = this.state.cart;
+    const updatedCartArr = cartArr.map(product => {
+      if (parseInt(product.id) === id) {
+        product.quantity = qty;
+      }
+      return product;
+    });
+    this.setState({ cart: updatedCartArr });
+  }
+
   placeOrder(order) {
     const cart = this.state.cart;
     const newOrder = {
@@ -88,6 +99,7 @@ class App extends React.Component {
           <Route exact path="/cart" render={props =>
             <CartSummary {...props}
               itemsInCart={this.state.cart}
+              updateQty={(id, qty) => this.updateCartQty(id, qty)}
             />
           }/>
           <Route exact path="/checkout" render={props =>

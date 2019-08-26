@@ -10,12 +10,15 @@ export default class CartSummaryItem extends React.Component {
   }
 
   handleUpdateQty(event) {
+    const productId = parseInt(this.props.cartItem.id);
     const qtyUpdate = {
       id: parseInt(this.props.cartItem.cart_id),
       qty: parseInt(event.target.value)
     };
+
     axios.put('/api/update-cart.php', qtyUpdate)
       .then(response => this.setState({ cartQuantity: response.data }))
+      .then(() => this.props.updateQty(productId, qtyUpdate.qty))
       .catch(error => console.error(error));
   }
 

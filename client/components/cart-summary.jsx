@@ -17,6 +17,7 @@ export default class CartSummary extends React.Component {
       <CartSummaryItem
         cartItem={cartItem}
         key={cartItem.id}
+        updateQty={this.props.updateQty}
       />
     );
     let averagePrice = this.sumOfAllPrices();
