@@ -5,18 +5,24 @@ require_once('db_connection.php');
 
 set_exception_handler('error_handler');
 startup();
+session_start();
 
 if(!$conn) {
   throw new Exception( mysqli_connect_error() );
 }
 
+$cartId = null;
+if (isset($_SESSION['cartId'])) {
+  $cartId = $_SESSION['cartId'];
+}
+
 $method = $_SERVER['REQUEST_METHOD'];
 
 if($method == 'GET') {
-  $query = "SELECT p.`id`, c.`id` AS `cart_id`, p.`name`, p.`price`, p.`image`, p.`description`, c.`quantity`
+  $query = "SELECT p.`id`, ci.`id` AS `cartitems_id`, p.`name`, p.`price`, p.`image`, p.`description`, ci.`quantity`
     FROM `products` AS p
-    JOIN `cart` AS c
-    ON p.`id` = c.`products_id`";
+    JOIN `cart_items` AS ci ON p.`id` = ci.`products_id`
+    JOIN `cart` AS c ON ci.`cart_id` = c.`id`";
 
   $result = mysqli_query($conn, $query);
 
@@ -40,14 +46,17 @@ if($method == 'GET') {
   $productId = intval($product['id']);
   $productQty = $product['qty'];
  
-  $checkingQuery = "SELECT * FROM `cart`";
+  $checkingQuery = "SELECT ci.`id`, ci.`products_id`, ci.`quantity`, ci.`cart_id` 
+    FROM `cart_items` AS ci 
+    JOIN `cart` AS c 
+    WHERE ci.`cart_id` = c.`id`";
   $checkResult = mysqli_query($conn, $checkingQuery);
 
   if ($checkResult) {
     $checkNumRows = mysqli_num_rows($checkResult);
     if ($checkNumRows === 0) {
-      $query = "INSERT INTO `cart` (`id`, `products_id`, `quantity`)
-        VALUES (NULL, $productId, $productQty)";
+      $query = "INSERT INTO `cart_items` (`id`, `products_id`, `quantity`, `cart_id`)
+        VALUES (NULL, $productId, $productQty, 1)";
       $result = mysqli_query($conn, $query);
     } else if ($checkNumRows) {
       $existsInCart = false;
@@ -63,7 +72,7 @@ if($method == 'GET') {
       }
 
       if ($existsInCart) {
-        $updateQuery = "UPDATE `cart` SET `quantity`={$updateCartQty} 
+        $updateQuery = "UPDATE `cart_items` SET `quantity`={$updateCartQty} 
           WHERE `id` ={$updateCartId}";
 
         $result = mysqli_query($conn, $updateQuery);
@@ -72,8 +81,8 @@ if($method == 'GET') {
           throw new Exception( mysqli_error($conn) );
         }
       } else {
-        $query = "INSERT INTO `cart` (`id`, `products_id`, `quantity`) 
-          VALUES (NULL, $productId, $productQty)";
+        $query = "INSERT INTO `cart_items` (`id`, `products_id`, `quantity`, `cart_id`) 
+          VALUES (NULL, $productId, $productQty, 1)";
 
         $result = mysqli_query($conn, $query);
 
@@ -81,10 +90,10 @@ if($method == 'GET') {
           throw new Exception( mysqli_error($conn) );
         }
       }
-      $query = "SELECT p.`id`, p.`name`, p.`price`, p.`image`, p.`description`, c.`quantity`
+      $query = "SELECT p.`id`, p.`name`, p.`price`, p.`image`, p.`description`, ci.`quantity`
         FROM `products` AS p
-        JOIN `cart` AS c
-        ON p.`id` = c.`products_id`";
+        JOIN `cart_items` AS ci ON p.`id` = ci.`products_id`
+        JOIN `cart` ON ci.`cart_id` = cart.`id`";
 
       $result = mysqli_query($conn, $query);
 

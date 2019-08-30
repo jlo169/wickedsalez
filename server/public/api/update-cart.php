@@ -14,7 +14,7 @@ $cartItemQty = json_decode(file_get_contents("php://input"), true);
 $cartId = $cartItemQty['id'];
 $cartQty = $cartItemQty['qty'];
 
-$query = "UPDATE `cart` SET `quantity`={$cartQty} 
+$query = "UPDATE `cart_items` SET `quantity`={$cartQty} 
     WHERE `id` ={$cartId}";
 
 $result = mysqli_query($conn, $query);

@@ -12,7 +12,7 @@ export default class CartSummaryItem extends React.Component {
   handleUpdateQty(event) {
     const productId = parseInt(this.props.cartItem.id);
     const qtyUpdate = {
-      id: parseInt(this.props.cartItem.cart_id),
+      id: parseInt(this.props.cartItem.cartitems_id),
       qty: parseInt(event.target.value)
     };
 

@@ -30,7 +30,6 @@ export default class ProductDetails extends React.Component {
     axios.get(`/api/products.php?id=${id}`)
       .then(response => {
         let isProductInCart = false;
-
         for (let cartItem of this.state.cart) {
           if (id === parseInt(cartItem.id)) {
             isProductInCart = true;
