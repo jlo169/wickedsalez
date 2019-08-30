@@ -7,6 +7,8 @@ export default class CartSummaryItem extends React.Component {
     this.state = {
       cartQuantity: ''
     };
+
+    this.handleCartDelete = this.handleCartDelete.bind(this);
   }
 
   handleUpdateQty(event) {
@@ -16,9 +18,17 @@ export default class CartSummaryItem extends React.Component {
       qty: parseInt(event.target.value)
     };
 
-    axios.put('/api/update-cart.php', qtyUpdate)
+    axios.put('/api/cart-update.php', qtyUpdate)
       .then(response => this.setState({ cartQuantity: response.data }))
       .then(() => this.props.updateQty(productId, qtyUpdate.qty))
+      .catch(error => console.error(error));
+  }
+
+  handleCartDelete(event) {
+    const cartIdToDelete = { id: parseInt(this.props.cartItem.cartitems_id) };
+
+    axios.delete('/api/cart-delete.php', { data: cartIdToDelete })
+      .then(() => this.props.getCart())
       .catch(error => console.error(error));
   }
 
@@ -55,6 +65,7 @@ export default class CartSummaryItem extends React.Component {
                     <option>4</option>
                     <option>5</option>
                   </select>
+                  <div onClick={this.handleCartDelete}>delete</div>
                 </div>
               </div>
             </div>

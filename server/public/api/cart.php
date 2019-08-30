@@ -90,7 +90,7 @@ if($method == 'GET') {
           throw new Exception( mysqli_error($conn) );
         }
       }
-      $query = "SELECT p.`id`, p.`name`, p.`price`, p.`image`, p.`description`, ci.`quantity`
+      $query = "SELECT p.`id`, p.`name`, p.`price`, p.`image`, p.`description`, ci.`quantity`, ci.`id` AS cartitems_id
         FROM `products` AS p
         JOIN `cart_items` AS ci ON p.`id` = ci.`products_id`
         JOIN `cart` ON ci.`cart_id` = cart.`id`";
