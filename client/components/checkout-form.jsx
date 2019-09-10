@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import CheckoutShipping from './checkout-form-shipping';
+import CheckoutSummary from './checkout-form-summary';
 
 export default class CheckoutForm extends Component {
   constructor(props) {
@@ -9,18 +11,18 @@ export default class CheckoutForm extends Component {
       city: '',
       state: '',
       zipcode: '',
-      dates: {}
+      shipping: 0
     };
 
-    this.shippingDateCalculation = this.shippingDateCalculation.bind(this);
+    this.handleShippingOptions = this.handleShippingOptions.bind(this);
   }
 
   sumOfAllPrices() {
     let priceTotal = 0;
     for (let item of this.props.itemsInCart) {
-      priceTotal += parseInt(item.price);
+      priceTotal += (parseInt(item.price) * item.quantity);
     }
-    const averagePrice = '$' + ((priceTotal / 100).toFixed(2));
+    const averagePrice = (priceTotal / 100).toFixed(2);
     return averagePrice;
   }
 
@@ -29,61 +31,14 @@ export default class CheckoutForm extends Component {
     this.setState({ [name]: value });
   }
 
+  handleShippingOptions(event) {
+    this.setState({ shipping: event.target.value });
+  }
+
   handleSubmitButton(event) {
     event.preventDefault();
     const copyState = Object.assign({}, this.state);
     this.props.placingOrder(copyState);
-  }
-
-  shippingDateCalculation(today) {
-    const deliveryTime = [1, 3, 7];
-    const deliveryDates = [];
-    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-    const months = [
-      { month: 'Jan', days: 31 },
-      { month: 'Feb', days: 28 },
-      { month: 'Mar', days: 31 },
-      { month: 'Apr', days: 30 },
-      { month: 'May', days: 31 },
-      { month: 'Jun', days: 30 },
-      { month: 'Jul', days: 31 },
-      { month: 'Aug', days: 31 },
-      { month: 'Sep', days: 30 },
-      { month: 'Oct', days: 31 },
-      { month: 'Nov', days: 30 },
-      { month: 'Dec', days: 31 }
-    ];
-
-    for (let i = 0; i < deliveryTime.length; i++) {
-      let shippingDay = today.getDay() + deliveryTime[i];
-      if (shippingDay > 6) {
-        shippingDay -= 7;
-      }
-
-      let shippingDate = today.getDate() + deliveryTime[i];
-      let shippingMonth = today.getMonth();
-      if (shippingDate > months[shippingMonth].days) {
-        shippingDate -= months[shippingMonth].days;
-        shippingMonth++;
-        if (shippingMonth > 11) {
-          shippingMonth = 0;
-        }
-      }
-
-      const dateObj = {
-        day: days[shippingDay],
-        month: months[shippingMonth].month,
-        date: shippingDate
-      };
-      deliveryDates.push(dateObj);
-    }
-    return deliveryDates;
-  }
-
-  componentDidMount() {
-    const today = new Date();
-    const deliveryDates = this.shippingDateCalculation(today);
-    this.setState({ dates: deliveryDates });
   }
 
   render() {
@@ -143,19 +98,18 @@ export default class CheckoutForm extends Component {
           </div>
 
           {/* Shipping */}
-          <div className="col-md-2">
-            <div className="form-check">
-              <input className="form-check-input" type="radio" name="exampleRadios" value="option1" checked />
-              <label className="form-check-label">
-                Default radio
-              </label>
-            </div>
-          </div>
+          <CheckoutShipping
+            sumOfAllPrices={() => this.sumOfAllPrices()}
+            handleShippingOptions={event => this.handleShippingOptions(event)}
+            shippingState={parseFloat(this.state.shipping)}
+          />
 
           {/* Summary */}
-          <div className="col-md-4">
-            A-WUG
-          </div>
+          <CheckoutSummary
+            sumOfAllPrices={() => this.sumOfAllPrices()}
+            shippingState={this.state.shipping}
+
+          />
         </div>
 
         <div className="row">

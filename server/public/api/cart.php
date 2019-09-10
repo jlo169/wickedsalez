@@ -7,6 +7,8 @@ set_exception_handler('error_handler');
 startup();
 session_start();
 
+// $_SESSION['cartId] = 2;
+
 if(!$conn) {
   throw new Exception( mysqli_connect_error() );
 }
@@ -14,6 +16,8 @@ if(!$conn) {
 $cartId = null;
 if (isset($_SESSION['cartId'])) {
   $cartId = $_SESSION['cartId'];
+} else {
+  // Create new cart and save insertId into $_SESSION
 }
 
 $method = $_SERVER['REQUEST_METHOD'];
