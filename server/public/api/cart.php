@@ -7,8 +7,6 @@ set_exception_handler('error_handler');
 startup();
 session_start();
 
-// $_SESSION['cartId] = 2;
-
 if(!$conn) {
   throw new Exception( mysqli_connect_error() );
 }
@@ -17,7 +15,14 @@ $cartId = null;
 if (isset($_SESSION['cartId'])) {
   $cartId = $_SESSION['cartId'];
 } else {
-  // Create new cart and save insertId into $_SESSION
+  $newUserQuery = "INSERT INTO `cart`(`id`, `created`, `user_id`, `cart_status`) 
+    VALUES (NULL, CURRENT_DATE, NULL, NULL)";
+
+  if(mysqli_query($conn, $newUserQuery)) {
+    $lastId = mysqli_insert_id($conn);
+    $_SESSION['cartId'] = $lastId;
+    $cartId = $_SESSION['cartId'];
+  }
 }
 
 $method = $_SERVER['REQUEST_METHOD'];
@@ -26,7 +31,8 @@ if($method == 'GET') {
   $query = "SELECT p.`id`, ci.`id` AS `cartitems_id`, p.`name`, p.`price`, p.`image`, p.`description`, ci.`quantity`
     FROM `products` AS p
     JOIN `cart_items` AS ci ON p.`id` = ci.`products_id`
-    JOIN `cart` AS c ON ci.`cart_id` = c.`id`";
+    JOIN `cart` AS c ON ci.`cart_id` = c.`id`
+    WHERE c.`id` = $cartId";
 
   $result = mysqli_query($conn, $query);
 
@@ -53,14 +59,15 @@ if($method == 'GET') {
   $checkingQuery = "SELECT ci.`id`, ci.`products_id`, ci.`quantity`, ci.`cart_id` 
     FROM `cart_items` AS ci 
     JOIN `cart` AS c 
-    WHERE ci.`cart_id` = c.`id`";
+    WHERE ci.`cart_id` = c.`id` AND c.`id` = $cartId";
   $checkResult = mysqli_query($conn, $checkingQuery);
 
   if ($checkResult) {
     $checkNumRows = mysqli_num_rows($checkResult);
+
     if ($checkNumRows === 0) {
       $query = "INSERT INTO `cart_items` (`id`, `products_id`, `quantity`, `cart_id`)
-        VALUES (NULL, $productId, $productQty, 1)";
+        VALUES (NULL, $productId, $productQty, $cartId)";
       $result = mysqli_query($conn, $query);
     } else if ($checkNumRows) {
       $existsInCart = false;
@@ -86,7 +93,7 @@ if($method == 'GET') {
         }
       } else {
         $query = "INSERT INTO `cart_items` (`id`, `products_id`, `quantity`, `cart_id`) 
-          VALUES (NULL, $productId, $productQty, 1)";
+          VALUES (NULL, $productId, $productQty, $cartId)";
 
         $result = mysqli_query($conn, $query);
 
@@ -94,29 +101,31 @@ if($method == 'GET') {
           throw new Exception( mysqli_error($conn) );
         }
       }
-      $query = "SELECT p.`id`, p.`name`, p.`price`, p.`image`, p.`description`, ci.`quantity`, ci.`id` AS cartitems_id
-        FROM `products` AS p
-        JOIN `cart_items` AS ci ON p.`id` = ci.`products_id`
-        JOIN `cart` ON ci.`cart_id` = cart.`id`";
-
-      $result = mysqli_query($conn, $query);
-
-      if(!$result) {
-        throw new Exception( mysqli_error($conn) );
-      }
-
-      $output = [];
-
-      while($row = mysqli_fetch_assoc($result)) {
-        array_push($output, $row);
-      }
-
-      $json_output = json_encode($output);
-
-      echo $json_output;
     } else {
       throw new Exception('Error ' . mysqli_connect_error());
     }
+  $query = "SELECT p.`id`, p.`name`, p.`price`, p.`image`, p.`description`, ci.`quantity`, ci.`id` AS cartitems_id
+    FROM `products` AS p
+    JOIN `cart_items` AS ci ON p.`id` = ci.`products_id`
+    JOIN `cart` ON ci.`cart_id` = cart.`id`
+    WHERE cart.`id` = $cartId";
+
+  $result = mysqli_query($conn, $query);
+
+  if(!$result) {
+    throw new Exception( mysqli_error($conn) );
+  }
+
+  $output = [];
+
+  while($row = mysqli_fetch_assoc($result)) {
+    array_push($output, $row);
+  }
+
+  $json_output = json_encode($output);
+
+  echo $json_output;
+
   }
 }
 
