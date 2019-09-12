@@ -28,7 +28,7 @@ export default class CartSummary extends React.Component {
         <div className="container mt-3">
           <div className="row">
             <div className="col-8">
-              {cartItems}
+              {this.props.itemsInCart.length ? cartItems : `Nothing in cart`}
             </div>
             <div className="col-4 border border-secondary rounded">
               <h3 className="">Item Total: {averagePrice}</h3>

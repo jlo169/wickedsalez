@@ -24,6 +24,9 @@ export default class ProductDetails extends React.Component {
     const { id } = this.state.product;
     const qty = this.state.quantity;
     this.props.addProductToCart(id, qty);
+    if (this.state.alreadyInCart === false) {
+      this.setState({ alreadyInCart: true });
+    }
   }
 
   getProductDetails(id) {
@@ -98,7 +101,7 @@ export default class ProductDetails extends React.Component {
                     <option>5</option>
                   </select>
                   <div className="ml-2">{this.state.alreadyInCart
-                    ? '*This item already exists in the cart'
+                    ? '*Item currently in cart'
                     : ''}
                   </div>
                 </div>

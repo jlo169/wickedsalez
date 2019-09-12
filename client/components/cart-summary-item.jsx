@@ -24,7 +24,7 @@ export default class CartSummaryItem extends React.Component {
       .catch(error => console.error(error));
   }
 
-  handleCartDelete(event) {
+  handleCartDelete() {
     const cartIdToDelete = { id: parseInt(this.props.cartItem.cartitems_id) };
 
     axios.delete('/api/cart-delete.php', { data: cartIdToDelete })
