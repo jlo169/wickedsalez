@@ -74,6 +74,7 @@ export default class CheckoutShipping extends React.Component {
 
     return (
       <div className="col-md-2">
+        <h3>Shipping</h3>
         <div className="form-check mb-2">
           <label className="form-check-label">
             <input

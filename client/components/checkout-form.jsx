@@ -11,9 +11,13 @@ export default class CheckoutForm extends Component {
       city: '',
       state: '',
       zipcode: '',
-      shipping: 0
+      shipping: 0,
+      averagePrice: 0,
+      tax: 0,
+      orderTotal: 0
     };
 
+    this.sumOfAllPrices = this.sumOfAllPrices.bind(this);
     this.handleShippingOptions = this.handleShippingOptions.bind(this);
   }
 
@@ -24,6 +28,20 @@ export default class CheckoutForm extends Component {
     }
     const averagePrice = (priceTotal / 100).toFixed(2);
     return averagePrice;
+  }
+
+  setInitialPrices() {
+    const averagePrice = parseFloat(this.sumOfAllPrices());
+    const shipping = this.state.shipping ? (averagePrice * this.state.shipping).toFixed(2) : 0.00;
+    const tax = parseFloat((averagePrice * 0.0725).toFixed(2));
+    const orderTotal = parseFloat(averagePrice + shipping + tax).toFixed(2);
+    this.setState({ averagePrice, shipping, tax, orderTotal });
+  }
+
+  updatePrices() {
+    const shipping = parseFloat((this.state.averagePrice * this.state.shipping).toFixed(2));
+    const orderTotal = parseFloat(this.state.averagePrice + this.state.tax + shipping).toFixed(2);
+    this.setState({ orderTotal });
   }
 
   handleInputs(event) {
@@ -99,16 +117,20 @@ export default class CheckoutForm extends Component {
 
           {/* Shipping */}
           <CheckoutShipping
-            sumOfAllPrices={() => this.sumOfAllPrices()}
+            sumOfAllPrices={this.sumOfAllPrices}
             handleShippingOptions={event => this.handleShippingOptions(event)}
             shippingState={parseFloat(this.state.shipping)}
           />
 
           {/* Summary */}
           <CheckoutSummary
-            sumOfAllPrices={() => this.sumOfAllPrices()}
-            shippingState={this.state.shipping}
-
+            sumOfAllPrices={this.sumOfAllPrices}
+            setInitialPrices={() => this.setInitialPrices()}
+            updatePrices={() => this.updatePrices()}
+            shipping={this.state.shipping}
+            averagePrice={this.state.averagePrice}
+            tax={this.state.tax}
+            orderTotal={this.state.orderTotal}
           />
         </div>
 
