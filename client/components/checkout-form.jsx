@@ -21,11 +21,6 @@ export default class CheckoutForm extends Component {
     this.handleShippingOptions = this.handleShippingOptions.bind(this);
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   console.log('Prev Props:', prevProps);
-  //   console.log('Checkout Props:', this.props);
-  // }
-
   sumOfAllPrices() {
     let priceTotal = 0;
     for (let item of this.props.itemsInCart) {
@@ -64,9 +59,13 @@ export default class CheckoutForm extends Component {
     this.props.placingOrder(copyState);
   }
 
-  render() {
-    // let subtotal = this.sumOfAllPrices();
+  componentDidUpdate(prevProps) {
+    if (prevProps.itemsInCart.length !== this.props.itemsInCart.length) {
+      this.setInitialPrices();
+    }
+  }
 
+  render() {
     return (
       <div className="container">
         <div className="row">
