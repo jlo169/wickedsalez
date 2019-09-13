@@ -8,8 +8,8 @@ export default class CartSummary extends React.Component {
     for (let item of this.props.itemsInCart) {
       priceTotal += (parseInt(item.price) * item.quantity);
     }
-    const averagePrice = '$' + ((priceTotal / 100).toFixed(2));
-    return averagePrice;
+    const subtotal = '$' + ((priceTotal / 100).toFixed(2));
+    return subtotal;
   }
 
   render() {
@@ -21,7 +21,7 @@ export default class CartSummary extends React.Component {
         getCart={this.props.getCart}
       />
     );
-    let averagePrice = this.sumOfAllPrices();
+    let subtotal = this.sumOfAllPrices();
 
     return (
       <div className="container">
@@ -31,14 +31,20 @@ export default class CartSummary extends React.Component {
               {this.props.itemsInCart.length ? cartItems : `Nothing in cart`}
             </div>
             <div className="col-4 border border-secondary rounded">
-              <h3 className="">Item Total: {averagePrice}</h3>
-              <Link to={'/checkout'}>
-                <button
-                  className="btn btn-secondary"
-                >
+              <h3 className="">Item Subtotal: {subtotal}</h3>
+              {this.props.itemsInCart.length
+                ? <Link to={'/checkout'}>
+                  <button
+                    className="btn btn-secondary"
+                  >
+                  Checkout
+                  </button>
+                </Link>
+                : <button className="btn btn-secondary" disabled>
                   Checkout
                 </button>
-              </Link>
+              }
+
             </div>
           </div>
         </div>

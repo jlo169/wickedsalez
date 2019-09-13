@@ -48,29 +48,31 @@ class App extends React.Component {
     this.setState({ cart: updatedCartArr });
   }
 
-  placeOrder(order) {
-    const cart = this.state.cart;
-    const newOrder = {
-      customer: order,
-      cart: cart
-    };
+  // placeOrder(order) {
+  //   console.log(order);
 
-    fetch('/api/orders.php', {
-      method: 'POST',
-      body: JSON.stringify(newOrder),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(() => {
-        const defaultViewState = { name: 'catalog', params: {} };
-        this.setState({
-          cart: [],
-          view: defaultViewState
-        });
-      })
-      .catch(err => console.error('Error, ', err));
-  }
+  //   // const cart = this.state.cart;
+  //   // const newOrder = {
+  //   //   customer: order,
+  //   //   cart: cart
+  //   // };
+
+  //   // fetch('/api/orders.php', {
+  //   //   method: 'POST',
+  //   //   body: JSON.stringify(newOrder),
+  //   //   headers: {
+  //   //     'Content-Type': 'application/json'
+  //   //   }
+  //   // })
+  //   //   .then(() => {
+  //   //     const defaultViewState = { name: 'catalog', params: {} };
+  //   //     this.setState({
+  //   //       cart: [],
+  //   //       view: defaultViewState
+  //   //     });
+  //   //   })
+  //   //   .catch(err => console.error('Error, ', err));
+  // }
 
   componentDidMount() {
     this.getProducts();
