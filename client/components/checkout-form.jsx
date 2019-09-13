@@ -12,7 +12,7 @@ export default class CheckoutForm extends Component {
       state: '',
       zipcode: '',
       shipping: 0,
-      averagePrice: 0,
+      subtotal: 0,
       tax: 0,
       orderTotal: 0
     };
@@ -26,21 +26,21 @@ export default class CheckoutForm extends Component {
     for (let item of this.props.itemsInCart) {
       priceTotal += (parseInt(item.price) * item.quantity);
     }
-    const averagePrice = (priceTotal / 100).toFixed(2);
-    return averagePrice;
+    const subtotal = (priceTotal / 100).toFixed(2);
+    return subtotal;
   }
 
   setInitialPrices() {
-    const averagePrice = parseFloat(this.sumOfAllPrices());
-    const shipping = this.state.shipping ? (averagePrice * this.state.shipping).toFixed(2) : 0.00;
-    const tax = parseFloat((averagePrice * 0.0725).toFixed(2));
-    const orderTotal = parseFloat(averagePrice + shipping + tax).toFixed(2);
-    this.setState({ averagePrice, shipping, tax, orderTotal });
+    const subtotal = parseFloat(this.sumOfAllPrices());
+    const shipping = this.state.shipping ? (subtotal * this.state.shipping).toFixed(2) : 0.00;
+    const tax = parseFloat((subtotal * 0.0725).toFixed(2));
+    const orderTotal = parseFloat(subtotal + shipping + tax).toFixed(2);
+    this.setState({ subtotal, shipping, tax, orderTotal });
   }
 
   updatePrices() {
-    const shipping = parseFloat((this.state.averagePrice * this.state.shipping).toFixed(2));
-    const orderTotal = parseFloat(this.state.averagePrice + this.state.tax + shipping).toFixed(2);
+    const shipping = parseFloat((this.state.subtotal * this.state.shipping).toFixed(2));
+    const orderTotal = parseFloat(this.state.subtotal + this.state.tax + shipping).toFixed(2);
     this.setState({ orderTotal });
   }
 
@@ -60,7 +60,7 @@ export default class CheckoutForm extends Component {
   }
 
   render() {
-    let averagePrice = this.sumOfAllPrices();
+    let subtotal = this.sumOfAllPrices();
 
     return (
       <div className="container">
@@ -128,7 +128,7 @@ export default class CheckoutForm extends Component {
             setInitialPrices={() => this.setInitialPrices()}
             updatePrices={() => this.updatePrices()}
             shipping={this.state.shipping}
-            averagePrice={this.state.averagePrice}
+            subtotal={this.state.subtotal}
             tax={this.state.tax}
             orderTotal={this.state.orderTotal}
           />
@@ -142,7 +142,7 @@ export default class CheckoutForm extends Component {
           </button>
         </div>
         <h2 className="title">Checkout</h2>
-        <h4 className="totalprice font-weight-light">{averagePrice}</h4>
+        <h4 className="totalprice font-weight-light">{subtotal}</h4>
       </div>
     );
   }
