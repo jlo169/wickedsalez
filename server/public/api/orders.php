@@ -56,15 +56,4 @@ if (mysqli_query($conn, $orderQuery)) {
   echo json_encode($output);
 };
 
-// if ($method != 'POST') {
-//   http_response_code(404);
-//   print(json_encode([
-//     'error' => 'Not Found',
-//     'message' => "Cannot $method /api/orders.php"
-//   ]));
-// } else {
-//   http_response_code(201);
-//   print($order);
-// }
-
 ?>
