@@ -49,27 +49,31 @@ class App extends React.Component {
   }
 
   placeOrder(order) {
-    const cart = this.state.cart;
-    const newOrder = {
-      customer: order,
-      cart: cart
-    };
+    // console.log(order);
+    // axios.post('/api/orders.php', order)
+    //   .then(response => console.log(response.data))
+    //   .catch(error => console.error('Error: ', error));
+    // const cart = this.state.cart;
+    // const newOrder = {
+    //   customer: order,
+    //   cart: cart
+    // };
 
-    fetch('/api/orders.php', {
-      method: 'POST',
-      body: JSON.stringify(newOrder),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(() => {
-        const defaultViewState = { name: 'catalog', params: {} };
-        this.setState({
-          cart: [],
-          view: defaultViewState
-        });
-      })
-      .catch(err => console.error('Error, ', err));
+    // fetch('/api/orders.php', {
+    //   method: 'POST',
+    //   body: JSON.stringify(newOrder),
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   }
+    // })
+    //   .then(() => {
+    //     const defaultViewState = { name: 'catalog', params: {} };
+    //     this.setState({
+    //       cart: [],
+    //       view: defaultViewState
+    //     });
+    //   })
+    //   .catch(err => console.error('Error, ', err));
   }
 
   componentDidMount() {
