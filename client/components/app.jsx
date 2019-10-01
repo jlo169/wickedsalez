@@ -111,9 +111,11 @@ class App extends React.Component {
           onRequestClose={() => this.closeModal}
           // style={customStyles}
           contentLabel="Checkout-Modal"
+          // className="checkout-modal"
         >
           <CheckoutModal
             orderDetails={this.state.orderDetails}
+            closeModal={() => this.closeModal()}
           />
         </ReactModal>
       </div>

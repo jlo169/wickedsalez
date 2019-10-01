@@ -49,9 +49,9 @@ if (mysqli_query($conn, $orderQuery)) {
 
   $output['products'] = $productArr;
 
-  if(!mysqli_query($conn, "DELETE FROM `cart_items` WHERE `cart_id` = $cartId")) {
-    throw new Exception('Error: failed to delete items from cart' . mysqli_connect_error());
-  };
+  // if(!mysqli_query($conn, "DELETE FROM `cart_items` WHERE `cart_id` = $cartId")) {
+  //   throw new Exception('Error: failed to delete items from cart' . mysqli_connect_error());
+  // };
 
   echo json_encode($output);
 };
