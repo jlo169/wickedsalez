@@ -35,7 +35,7 @@ if (mysqli_query($conn, $orderQuery)) {
   $result = mysqli_query($conn, $orderReturnQuery);
   $output = mysqli_fetch_assoc($result);
 
-  $cartItemCheckQuery = "SELECT p.`name`, ci.`quantity`
+  $cartItemCheckQuery = "SELECT p.`name`, p.`image`, ci.`quantity`, ci.`id`
     FROM cart_items AS ci
     JOIN products AS p ON p.`id` = ci.`products_id`
     WHERE ci.`cart_id` = $cartId";

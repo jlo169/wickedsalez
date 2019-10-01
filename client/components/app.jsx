@@ -1,18 +1,23 @@
 import React from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import axios from 'axios';
+import ReactModal from 'react-modal';
 import Header from './header';
 import ProductList from './product-list';
 import ProductDetails from './product-details';
 import CartSummary from './cart-summary';
 import CheckoutForm from './checkout-form';
+import CheckoutModal from './checkout-modal';
+ReactModal.setAppElement('#root');
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       products: [],
-      cart: []
+      cart: [],
+      modalIsOpen: false,
+      orderDetails: {}
     };
   }
 
@@ -49,16 +54,15 @@ class App extends React.Component {
   }
 
   placeOrder(order) {
-    // console.log(order);
-    // axios.post('/api/orders.php', order)
-    //   .then(response => console.log(response.data))
-    //   .catch(error => console.error('Error: ', error));
+    axios.post('/api/orders.php', order)
+      .then(response => {
+        this.setState({ modalIsOpen: true, orderDetails: response.data });
+      })
+      .catch(error => console.error('Error: ', error));
+  }
 
-    // const cart = this.state.cart;
-    // const newOrder = {
-    //   customer: order,
-    //   cart: cart
-    // };
+  closeModal() {
+    this.setState({ modalIsOpen: false });
   }
 
   componentDidMount() {
@@ -100,6 +104,18 @@ class App extends React.Component {
             />
           }/>
         </Switch>
+        <ReactModal
+          isOpen={this.state.modalIsOpen}
+          orderStuff={this.state.orderDetails}
+          // onAfterOpen={this.afterOpenModal}
+          onRequestClose={() => this.closeModal}
+          // style={customStyles}
+          contentLabel="Checkout-Modal"
+        >
+          <CheckoutModal
+            orderDetails={this.state.orderDetails}
+          />
+        </ReactModal>
       </div>
     );
   }

@@ -21,3 +21,7 @@ a:hover {
     margin-left: auto;
     margin-right: auto
 }
+
+.checkout-image {
+    width: 5rem;
+}
