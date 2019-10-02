@@ -62,7 +62,7 @@ class App extends React.Component {
   }
 
   closeModal() {
-    this.setState({ modalIsOpen: false });
+    this.setState({ modalIsOpen: false, cart: [] });
   }
 
   componentDidMount() {
@@ -107,11 +107,8 @@ class App extends React.Component {
         <ReactModal
           isOpen={this.state.modalIsOpen}
           orderStuff={this.state.orderDetails}
-          // onAfterOpen={this.afterOpenModal}
           onRequestClose={() => this.closeModal}
-          // style={customStyles}
           contentLabel="Checkout-Modal"
-          // className="checkout-modal"
         >
           <CheckoutModal
             orderDetails={this.state.orderDetails}

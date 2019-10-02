@@ -26,3 +26,10 @@ a:hover {
     width: 5rem;
 }
 
+.font-awesome-icon {
+    font-size: 3em;
+}
+
+.personal-sites {
+    cursor: pointer;
+}

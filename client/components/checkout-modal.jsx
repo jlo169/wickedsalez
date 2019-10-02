@@ -32,10 +32,22 @@ export default class CheckoutModal extends React.Component {
           <div>Tax: {`$${(order.tax / 100).toFixed(2)}`}</div>
           <h5>Order total: {`$${(order.orderTotal / 100).toFixed(2)}`}</h5>
 
-          <div className="mt-3 text-center">
+          <div className="pt-3 text-center border-top">
             <div>Thank you for trying out my demo site! </div>
             <div>For more portfolio examples from me, try clicking the links below:</div>
-            <div>Or if you&#39;d like to play around with this site a bit more, press the button</div>
+            <div className="col-12 container mx-auto my-3">
+              <div className="row">
+                <div onClick={() => window.open('http://jonathanlo.dev', '_blank')} className="col-6 personal-sites">
+                  <i className="fas fa-user-circle font-awesome-icon"></i>
+                  <div className="mt-2">Jonathan Lo&#39;s Portfolio</div>
+                </div>
+                <div onClick={() => window.open('https://github.com/jlo169', '_blank')} className="col-6 personal-sites">
+                  <i className="fab fa-github font-awesome-icon"></i>
+                  <div className="mt-2">Jonathan Lo&#39;s Github</div>
+                </div>
+              </div>
+            </div>
+            <div>Or if you&#39;d like to play around with this site a bit more, press the button below to complete your (fake) order!</div>
             <Link to='/' onClick={() => this.handleButtonClick()}>
               <button
                 type="button"
@@ -51,17 +63,3 @@ export default class CheckoutModal extends React.Component {
     );
   }
 }
-
-// order dummy data:
-// address: "116 Scenic Crest"
-// cart_id: "3"
-// city: "Irvine"
-// id: "23"
-// name: "Jonathan Lo"
-// orderTotal: "0"
-// products: 0: {name: "Gloomhaven", quantity: "4"}
-// shipping: "0"
-// state: "CA"
-// subtotal: "0"
-// tax: "0"
-// zipcode: "92618"
