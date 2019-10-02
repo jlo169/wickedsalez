@@ -3,6 +3,10 @@ import { Link } from 'react-router-dom';
 import CheckoutModalProducts from './checkout-modal-products';
 
 export default class CheckoutModal extends React.Component {
+  handleButtonClick() {
+    this.props.closeModal();
+  }
+
   render() {
     const order = this.props.orderDetails;
     const orderProducts = order.products.map(product =>
@@ -32,8 +36,13 @@ export default class CheckoutModal extends React.Component {
             <div>Thank you for trying out my demo site! </div>
             <div>For more portfolio examples from me, try clicking the links below:</div>
             <div>Or if you&#39;d like to play around with this site a bit more, press the button</div>
-            <Link to='/'>
-              <button type="button" className="btn btn-dark mt-3">Return to Home Page</button>
+            <Link to='/' onClick={() => this.handleButtonClick()}>
+              <button
+                type="button"
+                className="btn btn-dark mt-3"
+              >
+                Return to Home Page
+              </button>
             </Link>
           </div>
         </div>
