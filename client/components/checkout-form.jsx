@@ -14,10 +14,12 @@ export default class CheckoutForm extends Component {
       shipping: 0,
       subtotal: 0,
       tax: 0,
-      orderTotal: 0
+      orderTotal: 0,
+      validation: false
     };
 
     this.sumOfAllPrices = this.sumOfAllPrices.bind(this);
+    this.checkIfFilled = this.checkIfFilled.bind(this);
     this.handleShippingOptions = this.handleShippingOptions.bind(this);
   }
 
@@ -44,6 +46,14 @@ export default class CheckoutForm extends Component {
     this.setState({ orderTotal });
   }
 
+  checkIfFilled() {
+    const { name, address, city, state, zipcode } = this.state;
+    if (!name || !address || !city || !state || !zipcode) {
+      return false;
+    }
+    return true;
+  }
+
   handleInputs(event) {
     const { name, value } = event.target;
     this.setState({ [name]: value });
@@ -55,8 +65,13 @@ export default class CheckoutForm extends Component {
 
   handleSubmitButton(event) {
     event.preventDefault();
-    const copyState = Object.assign({}, this.state);
-    this.props.placingOrder(copyState);
+    const validation = this.checkIfFilled();
+    if (validation) {
+      const copyState = Object.assign({}, this.state);
+      this.props.placingOrder(copyState);
+    } else {
+      this.setState({ validation: true });
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -74,15 +89,12 @@ export default class CheckoutForm extends Component {
           <div className="col-md-6">
             <div className="nameInput mt-3">
               Name
-              <form>
-                <input
-                  type="text"
-                  name="name"
-                  className="col-md-12"
-                  onChange={event => this.handleInputs(event)}
-                  required
-                />
-              </form>
+              <input
+                type="text"
+                name="name"
+                className="col-md-12"
+                onChange={event => this.handleInputs(event)}
+              />
             </div>
             <div className="creditCardInput mt-3">
               Address
@@ -91,7 +103,6 @@ export default class CheckoutForm extends Component {
                 name="address"
                 className="col-md-12"
                 onChange={event => this.handleInputs(event)}
-                required
               />
             </div>
             <div className="addressInput mt-3">
@@ -101,7 +112,6 @@ export default class CheckoutForm extends Component {
                 name="city"
                 className="col-md-12"
                 onChange={event => this.handleInputs(event)}
-                required
               />
             </div>
             <div className="addressInput mt-3">
@@ -111,7 +121,6 @@ export default class CheckoutForm extends Component {
                 name="state"
                 className="col-md-12"
                 onChange={event => this.handleInputs(event)}
-                required
               />
             </div>
             <div className="addressInput mt-3">
@@ -121,7 +130,6 @@ export default class CheckoutForm extends Component {
                 name="zipcode"
                 className="col-md-12"
                 onChange={event => this.handleInputs(event)}
-                required
               />
             </div>
           </div>
@@ -149,6 +157,10 @@ export default class CheckoutForm extends Component {
               onClick={event => this.handleSubmitButton(event)}>
             Sell Soul
             </button>
+            {this.state.validation
+              ? <p className="mt-2" style={{ color: 'red' }}>*All fields must be filled to proceed</p>
+              : null
+            }
           </div>
         </div>
       </div>
