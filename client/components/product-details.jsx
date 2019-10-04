@@ -80,14 +80,14 @@ export default class ProductDetails extends React.Component {
             <div className="descriptionContainer container-fluid mx-3 col-md-4">
               <h1 className="productName mt-2">{product.name}</h1>
               <div
-                className="detailsDescription font-weight-light mt-3"
+                className="detailsDescription mt-3"
               >
                 ${(product.price / 100).toFixed(2)}
               </div>
-              <div className="detailsDescription mt-1">
-                {product.players}
+              <div className="detailsDescription font-weight-light mt-2">
+                {product.players} players
               </div>
-              <div className="container">
+              <div className="container mt-3">
                 <div className="row">Qty:
                   <select
                     className="form-control form-control-sm col-xs-2 col-md-2 ml-1"
@@ -117,7 +117,7 @@ export default class ProductDetails extends React.Component {
               </button>
             </div>
           </div>
-          <div className="longDescription mt-5 container-fluid">
+          <div className="longDescription mt-3 pt-3 border-top container">
             {/* While dangerous, dangerouslySetInnerHTML was used to mimic the likes of amazon.com with non-standardized product descriptions */}
             <div dangerouslySetInnerHTML={{ __html: product.description }} />
           </div>

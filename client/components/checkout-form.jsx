@@ -74,12 +74,15 @@ export default class CheckoutForm extends Component {
           <div className="col-md-6">
             <div className="nameInput mt-3">
               Name
-              <input
-                type="text"
-                name="name"
-                className="col-md-12"
-                onChange={event => this.handleInputs(event)}
-              />
+              <form>
+                <input
+                  type="text"
+                  name="name"
+                  className="col-md-12"
+                  onChange={event => this.handleInputs(event)}
+                  required
+                />
+              </form>
             </div>
             <div className="creditCardInput mt-3">
               Address
@@ -88,6 +91,7 @@ export default class CheckoutForm extends Component {
                 name="address"
                 className="col-md-12"
                 onChange={event => this.handleInputs(event)}
+                required
               />
             </div>
             <div className="addressInput mt-3">
@@ -97,6 +101,7 @@ export default class CheckoutForm extends Component {
                 name="city"
                 className="col-md-12"
                 onChange={event => this.handleInputs(event)}
+                required
               />
             </div>
             <div className="addressInput mt-3">
@@ -106,6 +111,7 @@ export default class CheckoutForm extends Component {
                 name="state"
                 className="col-md-12"
                 onChange={event => this.handleInputs(event)}
+                required
               />
             </div>
             <div className="addressInput mt-3">
@@ -115,6 +121,7 @@ export default class CheckoutForm extends Component {
                 name="zipcode"
                 className="col-md-12"
                 onChange={event => this.handleInputs(event)}
+                required
               />
             </div>
           </div>
@@ -136,14 +143,13 @@ export default class CheckoutForm extends Component {
             tax={this.state.tax}
             orderTotal={this.state.orderTotal}
           />
-        </div>
-
-        <div className="row">
-          <button
-            className="btn btn-outline-dark"
-            onClick={event => this.handleSubmitButton(event)}>
+          <div className="mt-3 pl-3">
+            <button
+              className="btn btn-outline-dark"
+              onClick={event => this.handleSubmitButton(event)}>
             Sell Soul
-          </button>
+            </button>
+          </div>
         </div>
       </div>
     );
