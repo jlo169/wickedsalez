@@ -64,6 +64,7 @@ export default class ProductDetails extends React.Component {
 
   render() {
     const product = this.state.product;
+    // console.log(this.state.product.description);
 
     if (product) {
       return (
@@ -117,7 +118,8 @@ export default class ProductDetails extends React.Component {
             </div>
           </div>
           <div className="longDescription mt-5 container-fluid">
-            <div>{product.description}</div>
+            {/* While dangerous, dangerouslySetInnerHTML was used to mimic the likes of amazon.com with non-standardized product descriptions */}
+            <div dangerouslySetInnerHTML={{ __html: product.description }} />
           </div>
         </div>
       );

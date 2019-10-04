@@ -41,6 +41,8 @@ while($row = mysqli_fetch_assoc($result)) {
   $output[] = $row;
 }
 
+// $output['description'] = stripslashes($output['description']);
+
 $json_output = json_encode($output);
 
 echo $json_output;
