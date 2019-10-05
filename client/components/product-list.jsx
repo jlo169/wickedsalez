@@ -19,11 +19,8 @@ export default class ProductList extends React.Component {
     );
 
     return (
-      <div>
-        <div className="filter col-12">
-
-        </div>
-        <div className="container-fluid row">
+      <div className="container-fluid">
+        <div className="row">
           {products}
         </div>
       </div>

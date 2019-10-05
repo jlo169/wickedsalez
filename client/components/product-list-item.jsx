@@ -5,7 +5,7 @@ export default class ProductListItem extends React.Component {
   render() {
     const product = this.props.product;
     return (
-      <div className="card-deck mt-3 ml-1 col-xs-4">
+      <div className="card-deck mt-3 mx-auto col-xs-4">
         <div
           className="card bg-light"
           onClick={this.handleProductClick}
