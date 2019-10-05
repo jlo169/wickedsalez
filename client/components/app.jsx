@@ -8,6 +8,7 @@ import ProductDetails from './product-details';
 import CartSummary from './cart-summary';
 import CheckoutForm from './checkout-form';
 import CheckoutModal from './checkout-modal';
+import PageNotFound from './404';
 ReactModal.setAppElement('#root');
 
 class App extends React.Component {
@@ -94,7 +95,6 @@ class App extends React.Component {
               getCart={() => this.getCartItems()}
               itemsInCart={this.state.cart}
               updateQty={(id, qty) => this.updateCartQty(id, qty)}
-
             />
           }/>
           <Route exact path="/checkout" render={props =>
@@ -103,6 +103,7 @@ class App extends React.Component {
               placingOrder={order => this.placeOrder(order)}
             />
           }/>
+          <Route component={PageNotFound} />
         </Switch>
         <ReactModal
           isOpen={this.state.modalIsOpen}
