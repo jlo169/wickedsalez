@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import CheckoutShipping from './checkout-form-shipping';
 import CheckoutSummary from './checkout-form-summary';
 
@@ -82,87 +83,102 @@ export default class CheckoutForm extends Component {
 
   render() {
     return (
-      <div className="container">
-        <div className="row">
+      <div>
+        {this.props.itemsInCart.length
+          ? (
+            <div className="container">
+              <div className="row">
 
-          {/* Form */}
-          <div className="col-md-6">
-            <div className="nameInput mt-3">
-              Name
-              <input
-                type="text"
-                name="name"
-                className="col-md-12"
-                onChange={event => this.handleInputs(event)}
-              />
-            </div>
-            <div className="creditCardInput mt-3">
-              Address
-              <input
-                type="text"
-                name="address"
-                className="col-md-12"
-                onChange={event => this.handleInputs(event)}
-              />
-            </div>
-            <div className="addressInput mt-3">
-              City
-              <input
-                type="text"
-                name="city"
-                className="col-md-12"
-                onChange={event => this.handleInputs(event)}
-              />
-            </div>
-            <div className="addressInput mt-3">
-              State
-              <input
-                type="text"
-                name="state"
-                className="col-md-12"
-                onChange={event => this.handleInputs(event)}
-              />
-            </div>
-            <div className="addressInput mt-3">
-              Zipcode
-              <input
-                type="text"
-                name="zipcode"
-                className="col-md-12"
-                onChange={event => this.handleInputs(event)}
-              />
-            </div>
-          </div>
+                {/* Form */}
+                <div className="col-md-6">
+                  <div className="nameInput mt-3">
+                  Name
+                    <input
+                      type="text"
+                      name="name"
+                      className="col-md-12"
+                      onChange={event => this.handleInputs(event)}
+                    />
+                  </div>
+                  <div className="creditCardInput mt-3">
+                  Address
+                    <input
+                      type="text"
+                      name="address"
+                      className="col-md-12"
+                      onChange={event => this.handleInputs(event)}
+                    />
+                  </div>
+                  <div className="addressInput mt-3">
+                  City
+                    <input
+                      type="text"
+                      name="city"
+                      className="col-md-12"
+                      onChange={event => this.handleInputs(event)}
+                    />
+                  </div>
+                  <div className="addressInput mt-3">
+                  State
+                    <input
+                      type="text"
+                      name="state"
+                      className="col-md-12"
+                      onChange={event => this.handleInputs(event)}
+                    />
+                  </div>
+                  <div className="addressInput mt-3">
+                  Zipcode
+                    <input
+                      type="text"
+                      name="zipcode"
+                      className="col-md-12"
+                      onChange={event => this.handleInputs(event)}
+                    />
+                  </div>
+                </div>
 
-          {/* Shipping */}
-          <CheckoutShipping
-            sumOfAllPrices={this.sumOfAllPrices}
-            handleShippingOptions={event => this.handleShippingOptions(event)}
-            shippingState={parseFloat(this.state.shipping)}
-          />
+                {/* Shipping */}
+                <CheckoutShipping
+                  sumOfAllPrices={this.sumOfAllPrices}
+                  handleShippingOptions={event => this.handleShippingOptions(event)}
+                  shippingState={parseFloat(this.state.shipping)}
+                />
 
-          {/* Summary */}
-          <CheckoutSummary
-            sumOfAllPrices={this.sumOfAllPrices}
-            setInitialPrices={() => this.setInitialPrices()}
-            updatePrices={() => this.updatePrices()}
-            shipping={this.state.shipping}
-            subtotal={this.state.subtotal}
-            tax={this.state.tax}
-            orderTotal={this.state.orderTotal}
-          />
-          <div className="mt-3 pl-3">
-            <button
-              className="btn btn-outline-dark"
-              onClick={event => this.handleSubmitButton(event)}>
-            Sell Soul
-            </button>
-            {this.state.validation
-              ? <p className="mt-2" style={{ color: 'red' }}>*All fields must be filled to proceed</p>
-              : null
-            }
-          </div>
-        </div>
+                {/* Summary */}
+                <CheckoutSummary
+                  sumOfAllPrices={this.sumOfAllPrices}
+                  setInitialPrices={() => this.setInitialPrices()}
+                  updatePrices={() => this.updatePrices()}
+                  shipping={this.state.shipping}
+                  subtotal={this.state.subtotal}
+                  tax={this.state.tax}
+                  orderTotal={this.state.orderTotal}
+                />
+                <div className="mt-3 pl-3">
+                  <button
+                    className="btn btn-outline-dark"
+                    onClick={event => this.handleSubmitButton(event)}>
+                Sell Soul
+                  </button>
+                  {this.state.validation
+                    ? <p className="mt-2" style={{ color: 'red' }}>*All fields must be filled to proceed</p>
+                    : null
+                  }
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="container-fluid">
+              <div className="row">
+                <h1 className="col-12 mt-3">There&#39;s nothing to checkout!</h1>
+                <Link to='/' className="back-home col-12">
+                  <button className="btn btn-outline-dark">Back to Home</button>
+                </Link>
+              </div>
+            </div>
+          )
+        }
       </div>
     );
   }
