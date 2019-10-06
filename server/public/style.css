@@ -30,6 +30,7 @@ a:hover {
     font-size: 3em;
 }
 
-.personal-sites {
+.personal-sites, 
+.delete-button {
     cursor: pointer;
 }

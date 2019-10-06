@@ -50,9 +50,9 @@ export default class CartSummaryItem extends React.Component {
           <div className="itemDescription align-self-center col-md-8">
             <div>
               <h4 className="productName mb-0">{item.name}</h4>
-              <h5 className="price font-weight-light mt-0">{'$' + (item.price / 100).toFixed(2)}</h5>
+              <h5 className="price font-weight-light mt-1 mb-0">{'$' + (item.price / 100).toFixed(2)}</h5>
               <div className="container">
-                <div className="row">
+                <div className="row mt-1">
                   <div className="pt-1">Qty:</div>
                   <select
                     className="form-control form-control-sm col-xs-2 col-md-2 ml-1"
@@ -66,7 +66,7 @@ export default class CartSummaryItem extends React.Component {
                     <option>4</option>
                     <option>5</option>
                   </select>
-                  <div className="pt-1" onClick={this.handleCartDelete}>delete</div>
+                  <div className="delete-button font-weight-light ml-2 pt-1" onClick={this.handleCartDelete}>delete</div>
                 </div>
               </div>
             </div>
