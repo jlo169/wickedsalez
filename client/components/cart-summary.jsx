@@ -24,29 +24,38 @@ export default class CartSummary extends React.Component {
     let subtotal = this.sumOfAllPrices();
 
     return (
-      <div className="container">
-        <div className="container mt-3">
-          <div className="row">
-            <div className="col-8">
-              {this.props.itemsInCart.length ? cartItems : `Nothing in cart`}
-            </div>
-            <div className="col-4 border border-secondary rounded">
-              <h3 className="">Item Subtotal: {subtotal}</h3>
-              {this.props.itemsInCart.length
-                ? <Link to={'/checkout'}>
-                  <button
-                    className="btn btn-secondary"
-                  >
+      <div>
+        <div className="container-fluid mt-2">
+          {this.props.itemsInCart.length ? (
+            <div className="col-12 row">
+              <div className="col-md-8 col-sm-12">
+                {cartItems}
+              </div>
+              <div className="col-md-4 col-sm-12 border-left">
+                <h3 className="">Item Subtotal: {subtotal}</h3>
+                {this.props.itemsInCart.length
+                  ? <Link to={'/checkout'}>
+                    <button
+                      className="btn btn-secondary"
+                    >
+                  Checkout
+                    </button>
+                  </Link>
+                  : <button className="btn btn-secondary" disabled>
                   Checkout
                   </button>
-                </Link>
-                : <button className="btn btn-secondary" disabled>
-                  Checkout
-                </button>
-              }
-
+                }
+              </div>
             </div>
-          </div>
+          ) : (
+            <div>
+              <h1 className="col-12 mt-3">Nothing in Cart</h1>
+              <Link to='/' className="back-home col-12">
+                <button className="btn btn-outline-dark">Back to Home</button>
+              </Link>
+            </div>
+          )
+          }
         </div>
       </div>
     );
