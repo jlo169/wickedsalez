@@ -13,7 +13,7 @@ export default class CheckoutSummary extends React.Component {
 
   render() {
     return (
-      <div className="col-md-4">
+      <div className="mt-3 col-md-4">
         <h3>Order Summary</h3>
         <div>Subtotal: {`$${(this.props.subtotal).toFixed(2)}`}</div>
         <div>Shipping and Handling: {`$${(this.props.subtotal * this.props.shipping).toFixed(2)}`}</div>

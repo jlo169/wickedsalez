@@ -31,7 +31,7 @@ export default class CartSummary extends React.Component {
               <div className="col-md-8 col-sm-12">
                 {cartItems}
               </div>
-              <div className="col-md-4 col-sm-12 border-left">
+              <div className="col-md-4 col-sm-12">
                 <h3 className="">Item Subtotal: {subtotal}</h3>
                 {this.props.itemsInCart.length
                   ? <Link to={'/checkout'}>

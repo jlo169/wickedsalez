@@ -70,14 +70,14 @@ export default class ProductDetails extends React.Component {
       return (
         <div className="mt-3">
           <div className="pictureDescription row">
-            <div className="imgContainer pr-0 py-2 col-md-7">
+            <div className="imgContainer pr-0 py-2 col-xs-12 col-lg-7">
               <img
                 src={product.image}
                 alt={product.name}
                 className="detailsImg p-1 border border-secondary"
               />
             </div>
-            <div className="descriptionContainer container-fluid mx-3 col-md-4">
+            <div className="descriptionContainer container-fluid mx-3 col-xs-12 col-lg-4">
               <h1 className="productName mt-2">{product.name}</h1>
               <div
                 className="detailsDescription mt-3"

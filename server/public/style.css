@@ -34,3 +34,7 @@ a:hover {
 .delete-button {
     cursor: pointer;
 }
+
+.cart-image {
+    height: 10em;
+}

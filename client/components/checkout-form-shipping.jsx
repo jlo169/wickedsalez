@@ -73,7 +73,7 @@ export default class CheckoutShipping extends React.Component {
     const oneDayShipping = this.state.dates[0];
 
     return (
-      <div className="col-md-2">
+      <div className="mt-3 col-md-2">
         <h3>Shipping</h3>
         <div className="form-check mb-2">
           <label className="form-check-label">

@@ -45,7 +45,7 @@ export default class CartSummaryItem extends React.Component {
           <img
             src={item.image}
             alt="item picture"
-            className="border-right border-secondary px-0 col-md-4"
+            className="cart-image border-right border-secondary px-0 col-md-4"
           />
           <div className="itemDescription align-self-center col-md-8">
             <div>
