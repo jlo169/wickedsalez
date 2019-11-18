@@ -20,7 +20,7 @@ export default class ProductList extends React.Component {
 
     return (
       <div className="container-fluid">
-        <div className="row">
+        <div className="row justify-content-around">
           {products}
         </div>
       </div>
