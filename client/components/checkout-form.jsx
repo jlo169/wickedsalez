@@ -16,7 +16,7 @@ export default class CheckoutForm extends Component {
       subtotal: 0,
       tax: 0,
       orderTotal: 0,
-      validation: false
+      validation: ''
     };
 
     this.sumOfAllPrices = this.sumOfAllPrices.bind(this);
@@ -49,10 +49,37 @@ export default class CheckoutForm extends Component {
 
   checkIfFilled() {
     const { name, address, city, state, zipcode } = this.state;
-    if (!name || !address || !city || !state || !zipcode) {
-      return false;
+    const errorArr = [];
+    let errorMsg = '';
+    if (!name || name.length < 2) {
+      errorArr.push('Name');
     }
-    return true;
+    if (!address || address.length < 4) {
+      errorArr.push('Address');
+    }
+    if (!city || city.length < 3) {
+      errorArr.push('City');
+    }
+    if (!state || state.length < 2) {
+      errorArr.push('State');
+    }
+    if (!zipcode || zipcode.length < 4) {
+      errorArr.push('Zipcode');
+    }
+
+    if (errorArr.length > 0) {
+      if (errorArr.length === 1) {
+        return errorArr[0];
+      }
+      for (let i = 0; i < errorArr.length; i++) {
+        if (i === errorArr.length - 1 && errorArr.length > 1) {
+          errorMsg += `and ${errorArr[i]}`;
+          break;
+        }
+        errorMsg += `${errorArr[i]}, `;
+      }
+    }
+    return errorMsg;
   }
 
   handleInputs(event) {
@@ -67,11 +94,11 @@ export default class CheckoutForm extends Component {
   handleSubmitButton(event) {
     event.preventDefault();
     const validation = this.checkIfFilled();
-    if (validation) {
+    if (!validation) {
       const copyState = Object.assign({}, this.state);
       this.props.placingOrder(copyState);
     } else {
-      this.setState({ validation: true });
+      this.setState({ validation: validation });
     }
   }
 
@@ -162,7 +189,7 @@ export default class CheckoutForm extends Component {
                 Sell Soul
                   </button>
                   {this.state.validation
-                    ? <p className="mt-2" style={{ color: 'red' }}>*All fields must be filled to proceed</p>
+                    ? <p className="mt-2" style={{ color: 'red' }}>*The {this.state.validation} fields must be properly filled to proceed</p>
                     : null
                   }
                 </div>
