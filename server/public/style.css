@@ -37,4 +37,5 @@ a:hover {
 
 .cart-image {
     height: 10em;
+    display: block;
 }
