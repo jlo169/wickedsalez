@@ -5,10 +5,12 @@ export default class CartSummaryItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cartQuantity: ''
+      cartQuantity: '',
+      deleteHit: false
     };
 
     this.handleCartDelete = this.handleCartDelete.bind(this);
+    this.handleInitialCartDeleteToggle = this.handleInitialCartDeleteToggle.bind(this);
   }
 
   handleUpdateQty(event) {
@@ -22,6 +24,11 @@ export default class CartSummaryItem extends React.Component {
       .then(response => this.setState({ cartQuantity: response.data }))
       .then(() => this.props.updateQty(productId, qtyUpdate.qty))
       .catch(error => console.error(error));
+  }
+
+  handleInitialCartDeleteToggle() {
+    const deleteBool = !this.state.deleteHit;
+    this.setState({ deleteHit: deleteBool });
   }
 
   handleCartDelete() {
@@ -68,7 +75,20 @@ export default class CartSummaryItem extends React.Component {
                     <option>4</option>
                     <option>5</option>
                   </select>
-                  <div className="delete-button font-weight-light ml-2 pt-1" onClick={this.handleCartDelete}>delete</div>
+                  {this.state.deleteHit ? (
+                    <div className="row font-weight-light ml-3 pt-1">
+                      <div className="col-8 p-0">Are you sure?</div>
+                      <div className="delete-button col-2 pl-0" onClick={this.handleCartDelete}>Yes</div>
+                      <div className="delete-button col-2" onClick={this.handleInitialCartDeleteToggle}>No</div>
+                    </div>
+                  ) : (
+                    <div
+                      className="delete-button font-weight-light ml-2 pt-1"
+                      onClick={this.handleInitialCartDeleteToggle}
+                    >
+                      delete
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
