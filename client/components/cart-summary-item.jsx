@@ -81,11 +81,6 @@ export default class CartSummaryItem extends React.Component {
                       <button type="button" className="delete-button btn btn-sm btn-outline-secondary col-3 pl-0" onClick={this.handleCartDelete}>Yes</button>
                       <button type="button" className="delete-button btn btn-sm btn-secondary col-3 ml-1" onClick={this.handleInitialCartDeleteToggle}>No</button>
                     </div>
-                    // <div className="row font-weight-light ml-3 pt-1">
-                    //   <div className="col-6 p-0">Are you sure?</div>
-                    //   <button type="button" className="delete-button btn btn-outline-secondary col-3 pl-0" onClick={this.handleCartDelete}>Yes</button>
-                    //   <button type="button" className="delete-button btn btn-secondary col-3" onClick={this.handleInitialCartDeleteToggle}>No</button>
-                    // </div>
                   ) : (
                     <div
                       className="delete-button font-weight-light ml-2 pt-1"
