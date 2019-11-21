@@ -123,7 +123,7 @@ export default class CheckoutForm extends Component {
                     <input
                       type="text"
                       name="name"
-                      className="col-md-12"
+                      className="col-md-12 border border-secondary"
                       onChange={event => this.handleInputs(event)}
                     />
                   </div>
@@ -132,7 +132,7 @@ export default class CheckoutForm extends Component {
                     <input
                       type="text"
                       name="address"
-                      className="col-md-12"
+                      className="col-md-12 border border-secondary"
                       onChange={event => this.handleInputs(event)}
                     />
                   </div>
@@ -141,7 +141,7 @@ export default class CheckoutForm extends Component {
                     <input
                       type="text"
                       name="city"
-                      className="col-md-12"
+                      className="col-md-12 border border-secondary"
                       onChange={event => this.handleInputs(event)}
                     />
                   </div>
@@ -150,7 +150,7 @@ export default class CheckoutForm extends Component {
                     <input
                       type="text"
                       name="state"
-                      className="col-md-12"
+                      className="col-md-12 border border-secondary"
                       onChange={event => this.handleInputs(event)}
                     />
                   </div>
@@ -159,7 +159,7 @@ export default class CheckoutForm extends Component {
                     <input
                       type="text"
                       name="zipcode"
-                      className="col-md-12"
+                      className="col-md-12 border border-secondary"
                       onChange={event => this.handleInputs(event)}
                     />
                   </div>
@@ -184,7 +184,7 @@ export default class CheckoutForm extends Component {
                 />
                 <div className="mt-3 pl-3">
                   <button
-                    className="btn btn-outline-dark"
+                    className="btn btn-outline-dark mb-3"
                     onClick={event => this.handleSubmitButton(event)}>
                 Sell Soul
                   </button>
