@@ -49,7 +49,7 @@ export default class CartSummaryItem extends React.Component {
     return (
       <div className="container border border-secondary bg-light rounded mb-3 col">
         <div className="row">
-          <div className="px-0 col-md-4">
+          <div className="px-0 col-md-4 border-right border-secondary">
             <img
               src={item.image}
               alt="item picture"
@@ -60,11 +60,11 @@ export default class CartSummaryItem extends React.Component {
             <div>
               <h4 className="productName mb-0">{item.name}</h4>
               <h5 className="price font-weight-light mt-1 mb-0">{'$' + (item.price / 100).toFixed(2)}</h5>
-              <div className="container">
-                <div className="row mt-1">
+              <div className="container alt-container">
+                <div className="row alt-row mt-1">
                   <div className="col-1 pt-1 px-0">Qty:</div>
                   <select
-                    className="form-control form-control-sm col-xs-2 col-md-2"
+                    className="form-control form-control-sm col-xs-12 col-md-2"
                     id="itemQuantity1"
                     value={this.state.cartQuantity}
                     onChange={event => this.handleUpdateQty(event)}
@@ -76,14 +76,26 @@ export default class CartSummaryItem extends React.Component {
                     <option>5</option>
                   </select>
                   {this.state.deleteHit ? (
-                    <div className="row col-9 font-weight-light">
-                      <div className="col-4 p-0 pl-2 pt-1">Are you sure?</div>
-                      <button type="button" className="delete-button btn btn-sm btn-outline-secondary col-3 pl-0" onClick={this.handleCartDelete}>Yes</button>
-                      <button type="button" className="delete-button btn btn-sm btn-secondary col-3 ml-1" onClick={this.handleInitialCartDeleteToggle}>No</button>
+                    <div className="row col-xs-12 col-md-9 font-weight-light">
+                      <div className="col-sm-5 p-0 pl-md-2 pt-1">Are you sure?</div>
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-outline-secondary col-md-3"
+                        onClick={this.handleCartDelete}
+                      >
+                        Yes
+                      </button>
+                      <button
+                        type="button"
+                        className="noButton btn btn-sm btn-secondary col-md-3 ml-sm-1"
+                        onClick={this.handleInitialCartDeleteToggle}
+                      >
+                        No
+                      </button>
                     </div>
                   ) : (
                     <div
-                      className="delete-button font-weight-light ml-2 pt-1"
+                      className="delete-button font-weight-light ml-md-2 pt-1"
                       onClick={this.handleInitialCartDeleteToggle}
                     >
                       delete

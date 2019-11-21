@@ -39,3 +39,26 @@ a:hover {
     height: 10em;
     display: block;
 }
+
+.alt-row {
+    margin-left: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.alt-container {
+    padding-left: 0;
+}
+
+@media ( max-width: 400px) {
+    .noButton {
+        margin-top: 1%;
+        margin-bottom: 1%;
+    }
+
+    .alt-row {
+        margin-left: 0;
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
