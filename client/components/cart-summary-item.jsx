@@ -62,9 +62,9 @@ export default class CartSummaryItem extends React.Component {
               <h5 className="price font-weight-light mt-1 mb-0">{'$' + (item.price / 100).toFixed(2)}</h5>
               <div className="container">
                 <div className="row mt-1">
-                  <div className="pt-1">Qty:</div>
+                  <div className="col-1 pt-1 px-0">Qty:</div>
                   <select
-                    className="form-control form-control-sm col-xs-2 col-md-2 ml-1"
+                    className="form-control form-control-sm col-xs-2 col-md-2"
                     id="itemQuantity1"
                     value={this.state.cartQuantity}
                     onChange={event => this.handleUpdateQty(event)}
@@ -76,11 +76,16 @@ export default class CartSummaryItem extends React.Component {
                     <option>5</option>
                   </select>
                   {this.state.deleteHit ? (
-                    <div className="row font-weight-light ml-3 pt-1">
-                      <div className="col-8 p-0">Are you sure?</div>
-                      <div className="delete-button col-2 pl-0" onClick={this.handleCartDelete}>Yes</div>
-                      <div className="delete-button col-2" onClick={this.handleInitialCartDeleteToggle}>No</div>
+                    <div className="row col-9 font-weight-light">
+                      <div className="col-4 p-0 pl-2 pt-1">Are you sure?</div>
+                      <button type="button" className="delete-button btn btn-sm btn-outline-secondary col-3 pl-0" onClick={this.handleCartDelete}>Yes</button>
+                      <button type="button" className="delete-button btn btn-sm btn-secondary col-3 ml-1" onClick={this.handleInitialCartDeleteToggle}>No</button>
                     </div>
+                    // <div className="row font-weight-light ml-3 pt-1">
+                    //   <div className="col-6 p-0">Are you sure?</div>
+                    //   <button type="button" className="delete-button btn btn-outline-secondary col-3 pl-0" onClick={this.handleCartDelete}>Yes</button>
+                    //   <button type="button" className="delete-button btn btn-secondary col-3" onClick={this.handleInitialCartDeleteToggle}>No</button>
+                    // </div>
                   ) : (
                     <div
                       className="delete-button font-weight-light ml-2 pt-1"
