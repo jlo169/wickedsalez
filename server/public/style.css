@@ -50,6 +50,10 @@ a:hover {
     padding-left: 0;
 }
 
+.right-border {
+    border-right: 1px solid 
+}
+
 @media ( max-width: 400px) {
     .noButton {
         margin-top: 1%;
@@ -60,5 +64,9 @@ a:hover {
         margin-left: 0;
         padding-left: 0;
         padding-right: 0;
+    }
+
+    .right-border {
+        border-right: 0
     }
 }
