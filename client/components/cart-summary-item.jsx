@@ -49,7 +49,7 @@ export default class CartSummaryItem extends React.Component {
     return (
       <div className="container border border-secondary bg-light rounded mb-3 col">
         <div className="row">
-          <div className="px-0 col-md-4 border-right border-secondary">
+          <div className="px-0 col-md-4 right-border">
             <img
               src={item.image}
               alt="item picture"
