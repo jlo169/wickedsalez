@@ -8,7 +8,8 @@ export default class ProductDetails extends React.Component {
       product: null,
       quantity: null,
       alreadyInCart: false,
-      cart: []
+      cart: [],
+      inputField: false
     };
     this.handleQtyChange = this.handleQtyChange.bind(this);
     this.addToCartButtonClicked = this.addToCartButtonClicked.bind(this);
@@ -16,7 +17,14 @@ export default class ProductDetails extends React.Component {
 
   handleQtyChange(event) {
     let value = parseInt(event.target.value);
-    this.setState({ quantity: value });
+    if (!value || value < 1) {
+      value = 1;
+    }
+    if (value < 6) {
+      this.setState({ quantity: value });
+    } else {
+      this.setState({ quantity: value, inputField: true });
+    }
   }
 
   addToCartButtonClicked(event) {
@@ -36,11 +44,20 @@ export default class ProductDetails extends React.Component {
         for (let cartItem of this.state.cart) {
           if (id === parseInt(cartItem.id)) {
             isProductInCart = true;
-            this.setState({
-              product: response.data[0],
-              quantity: cartItem.quantity,
-              alreadyInCart: true
-            });
+            if (cartItem.quantity > 5) {
+              this.setState({
+                product: response.data[0],
+                quantity: cartItem.quantity,
+                alreadyInCart: true,
+                inputField: true
+              });
+            } else {
+              this.setState({
+                product: response.data[0],
+                quantity: cartItem.quantity,
+                alreadyInCart: true
+              });
+            }
           }
         }
         if (!isProductInCart) {
@@ -64,7 +81,6 @@ export default class ProductDetails extends React.Component {
 
   render() {
     const product = this.state.product;
-    // console.log(this.state.product.description);
 
     if (product) {
       return (
@@ -89,18 +105,30 @@ export default class ProductDetails extends React.Component {
               </div>
               <div className="container mt-3">
                 <div className="row">Qty:
-                  <select
-                    className="form-control form-control-sm col-xs-2 col-md-2 ml-1"
-                    id="itemQuantity1"
-                    defaultValue={this.state.quantity}
-                    onChange={this.handleQtyChange}
-                  >
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                  </select>
+                  {!this.state.inputField ? (
+                    <select
+                      className="form-control form-control-sm col-xs-2 col-md-2 ml-1"
+                      id="itemQuantity1"
+                      defaultValue={this.state.quantity}
+                      onChange={this.handleQtyChange}
+                    >
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                      <option>6+</option>
+                    </select>
+                  ) : (
+                    <input
+                      className="form-control form-control-sm col-xs-2 col-md-2 ml-1"
+                      type="number"
+                      placeholder={this.state.quantity}
+                      onChange={this.handleQtyChange}
+                    >
+                    </input>
+                  )
+                  }
                   <div className="ml-2">{this.state.alreadyInCart
                     ? '*Item currently in cart'
                     : ''}

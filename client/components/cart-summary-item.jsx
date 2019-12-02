@@ -74,6 +74,7 @@ export default class CartSummaryItem extends React.Component {
                     <option>3</option>
                     <option>4</option>
                     <option>5</option>
+                    <option>6+</option>
                   </select>
                   {this.state.deleteHit ? (
                     <div className="row col-xs-12 col-md-9 font-weight-light">
