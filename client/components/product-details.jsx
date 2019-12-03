@@ -8,22 +8,51 @@ export default class ProductDetails extends React.Component {
       product: null,
       quantity: null,
       alreadyInCart: false,
-      cart: []
+      cart: [],
+      inputField: false
     };
     this.handleQtyChange = this.handleQtyChange.bind(this);
+    this.outsideSetValues = this.outsideSetValues.bind(this);
     this.addToCartButtonClicked = this.addToCartButtonClicked.bind(this);
+    this.offFocus = this.offFocus.bind(this);
+  }
+
+  offFocus() {
+    if (!this.state.quantity) {
+      this.setState({ quantity: 1 });
+    }
   }
 
   handleQtyChange(event) {
-    let value = parseInt(event.target.value);
-    this.setState({ quantity: value });
+    const value = parseInt(event.target.value);
+
+    if (!value) {
+      this.setState({ quantity: '' });
+    } else if (value > 100) {
+      this.setState({ quantity: 100 });
+    } else if (value < 1) {
+      this.setState({ quantity: 1 });
+    } else if (value < 6) {
+      this.setState({ quantity: value });
+    } else if (value >= 6) {
+      this.setState({ quantity: value, inputField: true });
+    }
+  }
+
+  outsideSetValues(qty) {
+    if (!qty || qty < 1) {
+      this.setState({ quantity: 1 });
+    } else if (qty > 100) {
+      this.setState({ quantity: 100 });
+    }
   }
 
   addToCartButtonClicked(event) {
-    event.preventDefault();
-    const { id } = this.state.product;
-    const qty = this.state.quantity;
-    this.props.addProductToCart(id, qty);
+    this.outsideSetValues(this.state.quantity);
+    const id = this.state.product.id;
+    const value = this.state.quantity;
+
+    this.props.addProductToCart(id, value);
     if (this.state.alreadyInCart === false) {
       this.setState({ alreadyInCart: true });
     }
@@ -36,11 +65,20 @@ export default class ProductDetails extends React.Component {
         for (let cartItem of this.state.cart) {
           if (id === parseInt(cartItem.id)) {
             isProductInCart = true;
-            this.setState({
-              product: response.data[0],
-              quantity: cartItem.quantity,
-              alreadyInCart: true
-            });
+            if (cartItem.quantity > 5) {
+              this.setState({
+                product: response.data[0],
+                quantity: cartItem.quantity,
+                alreadyInCart: true,
+                inputField: true
+              });
+            } else {
+              this.setState({
+                product: response.data[0],
+                quantity: cartItem.quantity,
+                alreadyInCart: true
+              });
+            }
           }
         }
         if (!isProductInCart) {
@@ -64,7 +102,6 @@ export default class ProductDetails extends React.Component {
 
   render() {
     const product = this.state.product;
-    // console.log(this.state.product.description);
 
     if (product) {
       return (
@@ -89,18 +126,32 @@ export default class ProductDetails extends React.Component {
               </div>
               <div className="container mt-3">
                 <div className="row">Qty:
-                  <select
-                    className="form-control form-control-sm col-xs-2 col-md-2 ml-1"
-                    id="itemQuantity1"
-                    defaultValue={this.state.quantity}
-                    onChange={this.handleQtyChange}
-                  >
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                  </select>
+                  {!this.state.inputField ? (
+                    <select
+                      className="form-control form-control-sm col-xs-2 col-md-2 ml-1"
+                      id="itemQuantity1"
+                      defaultValue={this.state.quantity}
+                      onChange={this.handleQtyChange}
+                    >
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                      <option>6+</option>
+                    </select>
+                  ) : (
+                    <input
+                      className="form-control form-control-sm col-xs-2 col-md-2 ml-1"
+                      type="number"
+                      value={this.state.quantity}
+                      min={1}
+                      max={100}
+                      onChange={this.handleQtyChange}
+                      onBlur={this.offFocus}
+                    />
+                  )
+                  }
                   <div className="ml-2">{this.state.alreadyInCart
                     ? '*Item currently in cart'
                     : ''}

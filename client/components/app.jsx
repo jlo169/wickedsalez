@@ -36,6 +36,7 @@ class App extends React.Component {
 
   addToCart(id, qty) {
     const data = { id, qty };
+
     axios.post('/api/cart.php', data)
       .then(response => {
         this.setState({ cart: response.data });
