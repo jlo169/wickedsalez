@@ -12,12 +12,23 @@ export default class CartSummaryItem extends React.Component {
 
     this.handleCartDelete = this.handleCartDelete.bind(this);
     this.handleInitialCartDeleteToggle = this.handleInitialCartDeleteToggle.bind(this);
+    this.offFocus = this.offFocus.bind(this);
+  }
+
+  offFocus() {
+    if (!this.state.cartQuantity) {
+      this.setState({ cartQuantity: 1 });
+    }
   }
 
   handleUpdateQty(event) {
     const productId = parseInt(this.props.cartItem.id);
     let quantity = parseInt(event.target.value);
-    if (!quantity || quantity < 1) {
+    let empty = false;
+    if (!quantity) {
+      quantity = 1;
+      empty = true;
+    } else if (quantity < 1) {
       quantity = 1;
     } else if (quantity > 100) {
       quantity = 100;
@@ -29,7 +40,9 @@ export default class CartSummaryItem extends React.Component {
 
     axios.put('/api/cart-update.php', qtyUpdate)
       .then(response => {
-        if (response.data > 5) {
+        if (empty) {
+          this.setState({ cartQuantity: '' });
+        } else if (response.data > 5) {
           this.setState({ cartQuantity: response.data, inputField: true });
         } else {
           this.setState({ cartQuantity: response.data });
@@ -84,8 +97,11 @@ export default class CartSummaryItem extends React.Component {
                     <input
                       className="form-control form-control-sm col-xs-2 col-md-2 ml-1"
                       type="number"
-                      placeholder={this.state.cartQuantity}
+                      min="1"
+                      max="100"
+                      value={this.state.cartQuantity}
                       onChange={event => this.handleUpdateQty(event)}
+                      onBlur={this.offFocus}
                     >
                     </input>
                   ) : (
