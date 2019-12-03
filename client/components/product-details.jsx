@@ -14,18 +14,27 @@ export default class ProductDetails extends React.Component {
     this.handleQtyChange = this.handleQtyChange.bind(this);
     this.outsideSetValues = this.outsideSetValues.bind(this);
     this.addToCartButtonClicked = this.addToCartButtonClicked.bind(this);
+    this.offFocus = this.offFocus.bind(this);
+  }
+
+  offFocus() {
+    if (!this.state.quantity) {
+      this.setState({ quantity: 1 });
+    }
   }
 
   handleQtyChange(event) {
-    let value;
-    if (!parseInt(event.target.value)) {
-      value = '';
-    } else {
-      value = parseInt(event.target.value);
-    }
-    if (value < 6) {
+    const value = parseInt(event.target.value);
+
+    if (!value) {
+      this.setState({ quantity: '' });
+    } else if (value > 100) {
+      this.setState({ quantity: 100 });
+    } else if (value < 1) {
+      this.setState({ quantity: 1 });
+    } else if (value < 6) {
       this.setState({ quantity: value });
-    } else {
+    } else if (value >= 6) {
       this.setState({ quantity: value, inputField: true });
     }
   }
@@ -139,6 +148,7 @@ export default class ProductDetails extends React.Component {
                       min={1}
                       max={100}
                       onChange={this.handleQtyChange}
+                      onBlur={this.offFocus}
                     />
                   )
                   }

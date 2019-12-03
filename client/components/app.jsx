@@ -36,11 +36,7 @@ class App extends React.Component {
 
   addToCart(id, qty) {
     const data = { id, qty };
-    if (data.qty < 1 || !data.qty) {
-      data.qty = 1;
-    } else if (qty > 100) {
-      data.qty = 100;
-    }
+
     axios.post('/api/cart.php', data)
       .then(response => {
         this.setState({ cart: response.data });
