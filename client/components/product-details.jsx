@@ -12,13 +12,16 @@ export default class ProductDetails extends React.Component {
       inputField: false
     };
     this.handleQtyChange = this.handleQtyChange.bind(this);
+    this.outsideSetValues = this.outsideSetValues.bind(this);
     this.addToCartButtonClicked = this.addToCartButtonClicked.bind(this);
   }
 
   handleQtyChange(event) {
-    let value = parseInt(event.target.value);
-    if (!value || value < 1) {
-      value = 1;
+    let value;
+    if (!parseInt(event.target.value)) {
+      value = '';
+    } else {
+      value = parseInt(event.target.value);
     }
     if (value < 6) {
       this.setState({ quantity: value });
@@ -27,11 +30,20 @@ export default class ProductDetails extends React.Component {
     }
   }
 
+  outsideSetValues(qty) {
+    if (!qty || qty < 1) {
+      this.setState({ quantity: 1 });
+    } else if (qty > 100) {
+      this.setState({ quantity: 100 });
+    }
+  }
+
   addToCartButtonClicked(event) {
-    event.preventDefault();
-    const { id } = this.state.product;
-    const qty = this.state.quantity;
-    this.props.addProductToCart(id, qty);
+    this.outsideSetValues(this.state.quantity);
+    const id = this.state.product.id;
+    const value = this.state.quantity;
+
+    this.props.addProductToCart(id, value);
     if (this.state.alreadyInCart === false) {
       this.setState({ alreadyInCart: true });
     }
@@ -123,10 +135,11 @@ export default class ProductDetails extends React.Component {
                     <input
                       className="form-control form-control-sm col-xs-2 col-md-2 ml-1"
                       type="number"
-                      placeholder={this.state.quantity}
+                      value={this.state.quantity}
+                      min={1}
+                      max={100}
                       onChange={this.handleQtyChange}
-                    >
-                    </input>
+                    />
                   )
                   }
                   <div className="ml-2">{this.state.alreadyInCart

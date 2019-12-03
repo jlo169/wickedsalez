@@ -19,6 +19,8 @@ export default class CartSummaryItem extends React.Component {
     let quantity = parseInt(event.target.value);
     if (!quantity || quantity < 1) {
       quantity = 1;
+    } else if (quantity > 100) {
+      quantity = 100;
     }
     const qtyUpdate = {
       id: parseInt(this.props.cartItem.cartitems_id),
